@@ -1,8 +1,11 @@
+
 class UserObserver < ActiveRecord::Observer
   def after_create(user)
     #Create a confirmation_code and send an email to the user
     #TODO - Create a real confirmation code
-    user.confirmation_code = "test"
+    Rails.logger.debug "UserObserver for email: #{user.email}"
+    user.confirmation_code = SecureRandom.hex(16)
+    user.save!
     UserNotifier.verify_email(user).deliver
   end
   

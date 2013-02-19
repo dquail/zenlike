@@ -6,6 +6,9 @@ Zenlike::Application.routes.draw do
   root :to => "users#new"
 
   resources :users
+  
+  match 'users/:id/verify/:confirmation_code' => 'users#verify', :as => :verify_user
+    
   resources :sessions
 
   # The priority is based upon order of creation:
