@@ -1,0 +1,4 @@
+It looks like you tried to have our assistant schedule a meeting but haven't verified your address yet
+You can verify this address by clicking here
+<%=verify_user_url(:id => @user.id, :confirmation_code => @user.confirmation_code)%>
+And then sending the email again.

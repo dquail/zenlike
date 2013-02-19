@@ -11,7 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130218203841) do
+ActiveRecord::Schema.define(:version => 20130219173743) do
+
+  create_table "meeting_threads", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "headers"
+    t.string   "text"
+    t.string   "html"
+    t.string   "from"
+    t.string   "to"
+    t.string   "cc"
+    t.string   "subject"
+    t.integer  "attachmen_count"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email"

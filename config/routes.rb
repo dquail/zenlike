@@ -1,15 +1,27 @@
 Zenlike::Application.routes.draw do
-  get "log_out" => "sessions#destroy", :as => "log_out"
-  get "log_in" => "sessions#new", :as => "log_in"
-  get "sign_up" => "users#new", :as => "sign_up"
-
+  
   root :to => "users#new"
 
+  #users
   resources :users
+  get "sign_up" => "users#new", :as => "sign_up"
+
   
+  #sessions
+  resources :sessions
+  get "log_out" => "sessions#destroy", :as => "log_out"
+  get "log_in" => "sessions#new", :as => "log_in"
+  
+  #meetingthreads
+  resources :meeting_threads, :except=> [:new] do
+    collection do
+      post 'from_sendgrid'
+    end
+  end
+    
   match 'users/:id/verify/:confirmation_code' => 'users#verify', :as => :verify_user
     
-  resources :sessions
+  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -11,6 +11,9 @@ class User < ActiveRecord::Base
   validates_format_of :email, :with => 
   /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :on => :create, :messgae => "incorrect email format" 
   
+  
+  has_many :meeting_threads
+  
   def self.authenticate(email, password)
     user = find_by_email(email)
     if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
