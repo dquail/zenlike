@@ -1,5 +1,5 @@
 class UserNotifier < ActionMailer::Base
-  default :from => 'no-reply@zenlike.me', :return_path => 'accounts@zenlike.me'
+  default :from => 'Zenlike Accounts<no-reply@zenlike.me>', :return_path => 'accounts@zenlike.me'
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
