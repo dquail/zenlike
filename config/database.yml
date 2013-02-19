@@ -20,7 +20,7 @@ test:
     host: localhost
     database: zenlike_test
     pool: 5
-    username: zenuser
+    username: zen_test_user
 
 production:
   adapter: sqlite3
