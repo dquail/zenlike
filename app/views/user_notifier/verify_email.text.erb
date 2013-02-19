@@ -1,5 +1,5 @@
 Thanks for signing up!
 In order to complete your signup, you need to click on the following link
 
-<%=link_to "Verify", verify_user_url(:id => @user.id, :confirmation_code => @user.confirmation_code)%>
+<%=verify_user_url(:id => @user.id, :confirmation_code => @user.confirmation_code)%>
 
