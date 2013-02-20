@@ -86,6 +86,12 @@ class MeetingThreadsController < ApplicationController
   end
   
   def from_sendgrid
+    
+    raw_text = params[:text]
+    logger.debug "Encoding of text param: #{raw_text.encoding}"
+    text_utf8 = raw_text.encode('UTF-8')
+    logger.debug "Encoding of text_utf8 #{text_utf8.encoding}
+    
     render :json => { "message" => "OK" }, :status => 200
     return
     logger.debug "Received request from sendgrid"
