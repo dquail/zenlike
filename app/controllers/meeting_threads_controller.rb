@@ -86,8 +86,8 @@ class MeetingThreadsController < ApplicationController
   end
   
   def from_sendgrid
-    render :json => { "message" => "OK" }, :status => 200
-    return
+    #render :json => { "message" => "OK" }, :status => 200
+    #return
     logger.debug "Received request from sendgrid"
 
     #populate the meeting thread with the params    
@@ -104,8 +104,9 @@ class MeetingThreadsController < ApplicationController
         logger.debug "Receied request to schedule meeting from valid email address"      
         #@meeting_thread = user.meeting_threads.build :headers => params[:headers], :text => params[:text], :from => full_email, :to => params[:to], :cc => params[:cc], :subject => params[:subject]
         #@meeting_thread = user.meeting_threads.build :text => params[:text].encode('UTF-8'), :from => full_email, :to => params[:to], :cc => params[:cc], :subject => params[:subject]
-        text_in_utf8 = params[:text].encode('UTF-8')
-        @meeting_thread = user.meeting_threads.build :text => text_in_utf8, :from => full_email, :to => params[:to], :cc => params[:cc], :subject => params[:subject]
+        raw_text = params[:text]
+        text_utf8 = raw_text.encode('UTF-8')
+        @meeting_thread = user.meeting_threads.build :text => text_utf8, :from => full_email, :to => params[:to], :cc => params[:cc], :subject => params[:subject]
 
         #save the meeting thread 
         @meeting_thread.save
