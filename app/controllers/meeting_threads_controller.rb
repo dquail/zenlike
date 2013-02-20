@@ -95,12 +95,14 @@ class MeetingThreadsController < ApplicationController
     full_email = params[:from]
     email_address =""
     full_email.scan(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i) { |addr| email_address = addr } 
+    
+    
     user = User.find_by_email(email_address)
     if (user)
       if (user.confirmed?)
         logger.debug "Receied request to schedule meeting from valid email address"      
         #@meeting_thread = user.meeting_threads.build :headers => params[:headers], :text => params[:text], :from => full_email, :to => params[:to], :cc => params[:cc], :subject => params[:subject]
-        @meeting_thread = user.meeting_threads.build :text => params[:text], :from => full_email, :to => params[:to], :cc => params[:cc], :subject => params[:subject]
+        @meeting_thread = user.meeting_threads.build :text => params[:text].encode('UTF-8'), :from => full_email, :to => params[:to], :cc => params[:cc], :subject => params[:subject]
 
         #save the meeting thread 
         @meeting_thread.save
