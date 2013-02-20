@@ -98,7 +98,7 @@ class MeetingThreadsController < ApplicationController
     if (user)
       if (user.confirmed?)
         logger.debug "Receied request to schedule meeting from valid email address"      
-        @meeting_thread = user.meeting_threads.build :headers => params[:headers], :text => params[:text], :from => params[:from], :to => params[:to], :cc => params[:cc], :subject => params[:subject]
+        @meeting_thread = user.meeting_threads.build :headers => params[:headers], :text => params[:text], :from => full_email, :to => params[:to], :cc => params[:cc], :subject => params[:subject]
 
         #save the meeting thread 
         @meeting_thread.save!
@@ -112,7 +112,7 @@ class MeetingThreadsController < ApplicationController
     else
       #email user saying that they need to sign up for an account
       logger.debug "Receied request to schedule meeting from invalid email address"
-      UserNotifier.meeting_thread_invalid_email(params[:from]).deliver
+      UserNotifier.meeting_thread_invalid_email(email_address).deliver
     end
 
     
