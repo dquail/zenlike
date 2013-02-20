@@ -86,7 +86,10 @@ class MeetingThreadsController < ApplicationController
   end
   
   def from_sendgrid
-    return
+    respond_to do |format|
+      format.json { status: 200 }
+    end
+    return     
     logger.debug "Received request from sendgrid"
 
     #populate the meeting thread with the params    
