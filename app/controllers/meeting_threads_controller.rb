@@ -103,7 +103,7 @@ class MeetingThreadsController < ApplicationController
         @meeting_thread = user.meeting_threads.build :text => params[:text], :from => full_email, :to => params[:to], :cc => params[:cc], :subject => params[:subject]
 
         #save the meeting thread 
-        @meeting_thread.save!
+        @meeting_thread.save
 
         #email user saying that a request will be created shortly
         UserNotifier.meeting_thread_received(user).deliver
