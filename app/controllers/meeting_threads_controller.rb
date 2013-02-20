@@ -86,8 +86,6 @@ class MeetingThreadsController < ApplicationController
   end
   
   def from_sendgrid
-    #temporarily returning so sendgrid stops spamming me
-    return
     logger.debug "Received request from sendgrid"
 
     #populate the meeting thread with the params    
