@@ -11,13 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130219173743) do
+ActiveRecord::Schema.define(:version => 20130220172721) do
 
   create_table "meeting_threads", :force => true do |t|
     t.integer  "user_id"
-    t.string   "headers"
-    t.string   "text"
-    t.string   "html"
+    t.text     "headers"
+    t.text     "text"
+    t.text     "html"
     t.string   "from"
     t.string   "to"
     t.string   "cc"
