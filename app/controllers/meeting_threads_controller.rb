@@ -88,7 +88,8 @@ class MeetingThreadsController < ApplicationController
   def from_sendgrid
     
     raw_text = params[:text]
-    logger.info "Encoding of text param: #{raw_text.encoding}"
+    
+    logger.info "Encoding of text param: #{params[:text].encoding}"
     text_utf8 = raw_text.encode('UTF-8')
     logger.info "Encoding of text_utf8 #{text_utf8.encoding}"
     
