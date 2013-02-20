@@ -91,7 +91,12 @@ class MeetingThreadsController < ApplicationController
     logger.debug "Received request from sendgrid"
 
     #populate the meeting thread with the params    
-    user = User.find_by_email(params[:from])
+    
+    #The params[:from] is often of the formant David Quail <quail.david@gmail.com>
+    full_email = params[:from]
+    email_address =""
+    full_email.scan(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i) { |addr| email_address = addr } 
+    user = User.find_by_email(email_address)
     if (user)
       if (user.confirmed?)
         logger.debug "Receied request to schedule meeting from valid email address"      
@@ -114,7 +119,7 @@ class MeetingThreadsController < ApplicationController
 
     
     respond_to do |format|
-      format.json { render json: @meeting_thread }
+      format.json { render json: @meeting_thread, status: 200 }
     end    
   end
   
