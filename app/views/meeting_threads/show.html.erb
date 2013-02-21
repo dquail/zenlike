@@ -1,24 +1,5 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>User:</b>
-  <%= @meeting_thread.user_id %>
-</p>
-
-<p>
-  <b>Headers:</b>
-  <%= @meeting_thread.headers %>
-</p>
-
-<p>
-  <b>Text:</b>
-  <%= @meeting_thread.text %>
-</p>
-
-<p>
-  <b>Html:</b>
-  <%= @meeting_thread.html %>
-</p>
 
 <p>
   <b>From:</b>
@@ -34,15 +15,19 @@
   <b>Cc:</b>
   <%= @meeting_thread.cc %>
 </p>
-
 <p>
   <b>Subject:</b>
   <%= @meeting_thread.subject %>
 </p>
 
 <p>
-  <b>Attachmen count:</b>
-  <%= @meeting_thread.attachmen_count %>
+  <b>Text:</b>
+  <%= @meeting_thread.text %>
+</p>
+
+<p>
+  <b>Html:</b>
+  <%= @meeting_thread.html %>
 </p>
 
 
