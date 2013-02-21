@@ -97,7 +97,7 @@ class MeetingThreadsController < ApplicationController
     charsets = JSON.load(params[:charsets])
          
     #The params[:from] is often of the formant David Quail <quail.david@gmail.com>
-    full_email = utf_params[:from]
+    full_email = params[:from]
     email_address =""
     full_email.scan(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i) { |addr| email_address = addr } 
     
