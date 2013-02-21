@@ -27,6 +27,12 @@ class UserNotifier < ActionMailer::Base
     mail to: user.email
   end
     
+  def meeting_thread_exception(user)
+    @user = user
+    mail to: user.email
+    mail to: david@zenlike.me
+  end
+  
   def test_email
     mail to: "quail.david@gmail.com", subject: 'Rails test'
   end
