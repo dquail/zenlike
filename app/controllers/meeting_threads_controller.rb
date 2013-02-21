@@ -104,7 +104,7 @@ class MeetingThreadsController < ApplicationController
     if (user)
       if (user.confirmed?)
         logger.debug "Receied request to schedule meeting from valid email address"      
-        @meeting_thread = user.meeting_threads.build :headers => utf_params[:headers], :text => utf_params[:text], :html => utfparams[:html], :from => full_email, :to => utf_params[:to], :cc => utf_params[:cc], :subject => utf_params[:subject]
+        @meeting_thread = user.meeting_threads.build :headers => utf_params[:headers], :text => utf_params[:text], :html => utf_params[:html], :from => full_email, :to => utf_params[:to], :cc => utf_params[:cc], :subject => utf_params[:subject]
 
         #save the meeting thread 
         @meeting_thread.save
