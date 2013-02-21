@@ -1,3 +1,5 @@
+require 'json'
+
 class MeetingThreadsController < ApplicationController
   
   skip_before_filter :authorize, :only => [:from_sendgrid]
@@ -126,9 +128,8 @@ class MeetingThreadsController < ApplicationController
   private 
   
   def sendgrid_params_to_utf8(params)
-    charsets = params[:charsets]
-    logger.info "params is #{params}"
-    logger.info "charsets hash is #{charsets}"
+    #charsets is json string we need to turn into a hash
+    charsets = JSON.load(params[:charsets])
     logger.info "charsetstext is #{charsets["text"]}"
     logger.info "keys: #{charsets.keys}"
     
