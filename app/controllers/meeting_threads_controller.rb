@@ -89,12 +89,11 @@ class MeetingThreadsController < ApplicationController
     
     #render :json => { "message" => "OK" }, :status => 200
     #return
-    logger.debug "Received request from sendgrid"
 
-    #populate the meeting thread with the params    
-    
+    utf_params = sendgrid_params_to_utf8(params)
+     
     #The params[:from] is often of the formant David Quail <quail.david@gmail.com>
-    full_email = params[:from]
+    full_email = utf_params[:from]
     email_address =""
     full_email.scan(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i) { |addr| email_address = addr } 
     
@@ -103,12 +102,7 @@ class MeetingThreadsController < ApplicationController
     if (user)
       if (user.confirmed?)
         logger.debug "Receied request to schedule meeting from valid email address"      
-        #@meeting_thread = user.meeting_threads.build :headers => params[:headers], :text => params[:text], :from => full_email, :to => params[:to], :cc => params[:cc], :subject => params[:subject]
-        #@meeting_thread = user.meeting_threads.build :text => params[:text].encode('UTF-8'), :from => full_email, :to => params[:to], :cc => params[:cc], :subject => params[:subject]
-        raw_text = params[:text]
-        raw_text.force_encoding('windows-1252')
-        text_utf8 = raw_text.encode('UTF-8')
-        @meeting_thread = user.meeting_threads.build :text => text_utf8, :from => full_email, :to => params[:to], :cc => params[:cc], :subject => params[:subject]
+        @meeting_thread = user.meeting_threads.build :headers => utf_params[:headers], :text => utf_params[:text], :html => utfparams[:html], :from => full_email, :to => utf_params[:to], :cc => utf_params[:cc], :subject => utf_params[:subject]
 
         #save the meeting thread 
         @meeting_thread.save
@@ -127,6 +121,19 @@ class MeetingThreadsController < ApplicationController
 
     
     render :json => { "message" => "OK" }, :status => 200
+  end
+  
+  private 
+  
+  def sendgrid_params_to_utf8(params)
+    charsets = params[:charsets]
+    if (charsets[:text])
+      params[:text].force_encoding(charsets[:text]).encode('utf-8')
+    end
+    if (charsets[:html])
+      params[:html].force_encoding(charsets[:html]).encode('utf-8')
+    end
+    return params
   end
   
 end
