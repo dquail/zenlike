@@ -30,7 +30,7 @@ class UserNotifier < ActionMailer::Base
   def meeting_thread_exception(user)
     @user = user
     mail to: user.email
-    mail to: david@zenlike.me
+    mail to: 'david@zenlike.me'
   end
   
   def test_email
