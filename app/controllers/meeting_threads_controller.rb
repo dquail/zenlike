@@ -130,14 +130,14 @@ class MeetingThreadsController < ApplicationController
   def sendgrid_params_to_utf8(params)
     #charsets is json string we need to turn into a hash
     charsets = JSON.load(params[:charsets])
-    logger.info "charsetstext is #{charsets["text"]}"
-    logger.info "keys: #{charsets.keys}"
+    logger.info "charsetstext is #{charsets['text']}"
     
-    if (charsets["text"])
-      params[:text].force_encoding(charsets["text"]).encode('utf-8')
+    if (charsets['text'])
+      logger.info "Forcing text field to #{charsets['text']}"
+      params[:text].force_encoding('windows-1252').encode('utf-8')
     end
-    if (charsets["html"])
-      params[:html].force_encoding(charsets["html"]).encode('utf-8')
+    if (charsets['html'])
+      params[:html].force_encoding('windows-1252').encode('utf-8')
     end
     return params
   end
