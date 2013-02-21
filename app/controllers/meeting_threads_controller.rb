@@ -92,8 +92,10 @@ class MeetingThreadsController < ApplicationController
     #render :json => { "message" => "OK" }, :status => 200
     #return
 
-    utf_params = sendgrid_params_to_utf8(params)
-     
+    #utf_params = sendgrid_params_to_utf8(params)
+    
+    charsets = JSON.load(params[:charsets])
+         
     #The params[:from] is often of the formant David Quail <quail.david@gmail.com>
     full_email = utf_params[:from]
     email_address =""
@@ -104,7 +106,7 @@ class MeetingThreadsController < ApplicationController
     if (user)
       if (user.confirmed?)
         logger.debug "Receied request to schedule meeting from valid email address"      
-        @meeting_thread = user.meeting_threads.build :headers => utf_params[:headers], :text => utf_params[:text], :html => utf_params[:html], :from => full_email, :to => utf_params[:to], :cc => utf_params[:cc], :subject => utf_params[:subject]
+        @meeting_thread = user.meeting_threads.build :headers => params[:headers], :text => params[:text].force_encoding(charsets['text']).encode('UTF-8'), :html => params[:html].force_encoding(charsets['html']).encode('UTF-8'), :from => full_email, :to => params[:to], :cc => params[:cc], :subject => params[:subject]
 
         #save the meeting thread 
         @meeting_thread.save
@@ -124,22 +126,5 @@ class MeetingThreadsController < ApplicationController
     
     render :json => { "message" => "OK" }, :status => 200
   end
-  
-  private 
-  
-  def sendgrid_params_to_utf8(params)
-    #charsets is json string we need to turn into a hash
-    charsets = JSON.load(params[:charsets])
-    logger.info "charsetstext is #{charsets['text']}"
-    
-    if (charsets['text'])
-      logger.info "Forcing text field to #{charsets['text']}"
-      params[:text].force_encoding('windows-1252').encode('utf-8')
-    end
-    if (charsets['html'])
-      params[:html].force_encoding('windows-1252').encode('utf-8')
-    end
-    return params
-  end
-  
+
 end
