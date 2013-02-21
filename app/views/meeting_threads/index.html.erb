@@ -4,15 +4,10 @@
 </p>
 <table>
   <tr>
-    <th>User</th>
-    <th>Headers</th>
-    <th>Text</th>
-    <th>Html</th>
-    <th>From</th>
     <th>To</th>
-    <th>Cc</th>
+    <th>CC</th>
+    <th>From</th>
     <th>Subject</th>
-    <th>Attachmen count</th>
     <th></th>
     <th></th>
     <th></th>
@@ -20,15 +15,10 @@
 
 <% @meeting_threads.each do |meeting_thread| %>
   <tr>
-    <td><%= meeting_thread.user_id %></td>
-    <td><%= meeting_thread.headers %></td>
-    <td><%= meeting_thread.text %></td>
-    <td><%= meeting_thread.html %></td>
-    <td><%= meeting_thread.from %></td>
-    <td><%= meeting_thread.to %></td>
+    <td><%= meeting_thread.to %></td>	
     <td><%= meeting_thread.cc %></td>
+    <td><%= meeting_thread.from %></td>
     <td><%= meeting_thread.subject %></td>
-    <td><%= meeting_thread.attachmen_count %></td>
     <td><%= link_to 'Show', meeting_thread %></td>
     <td><%= link_to 'Edit', edit_meeting_thread_path(meeting_thread) %></td>
     <td><%= link_to 'Destroy', meeting_thread, method: :delete, data: { confirm: 'Are you sure?' } %></td>
