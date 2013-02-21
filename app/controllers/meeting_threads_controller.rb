@@ -127,11 +127,11 @@ class MeetingThreadsController < ApplicationController
   
   def sendgrid_params_to_utf8(params)
     charsets = params[:charsets]
-    if (charsets[:text])
-      params[:text].force_encoding(charsets[:text]).encode('utf-8')
+    if (charsets["text"])
+      params[:text].force_encoding(charsets["text"]).encode('utf-8')
     end
-    if (charsets[:html])
-      params[:html].force_encoding(charsets[:html]).encode('utf-8')
+    if (charsets["html"])
+      params[:html].force_encoding(charsets["html"]).encode('utf-8')
     end
     return params
   end
