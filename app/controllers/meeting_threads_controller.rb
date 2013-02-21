@@ -130,6 +130,7 @@ class MeetingThreadsController < ApplicationController
     logger.info "params is #{params}"
     logger.info "charsets hash is #{charsets}"
     logger.info "charsetstext is #{charsets["text"]}"
+    logger.info "keys: #{charset.keys}"
     
     if (charsets["text"])
       params[:text].force_encoding(charsets["text"]).encode('utf-8')
