@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+
+<p>
+  <b>Participants:</b>
+  <%= @calendar_guess.participants %>
+</p>
+
+<p>
+  <b>Time:</b>
+  <%= @calendar_guess.time %>
+</p>
+
+<p>
+  <b>Location:</b>
+  <%= @calendar_guess.location %>
+</p>
+<p>
+  <b>Description:</b>
+  <%= @calendar_guess.description %>
+</p>
+
+<%= link_to 'Edit', edit_calendar_guess_path(@calendar_guess) %>
+

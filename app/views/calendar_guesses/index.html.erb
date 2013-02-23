@@ -1,0 +1,23 @@
+<h2>Calendar guesses</h2>
+
+<table>
+  <tr>
+    <th>Time</th>
+    <th>Location</th>
+    <th>participants</th>
+    <th>Description</th>
+  </tr>
+
+<% @calendar_guesses.each do |calendar_guess| %>
+  <tr>
+    <td><%= calendar_guess.time %></td>	
+    <td><%= calendar_guess.location %></td>
+    <td><%= calendar_guess.participants %></td>
+    <td><%= calendar_guess.description %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+

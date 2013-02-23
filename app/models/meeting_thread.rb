@@ -4,5 +4,6 @@ class MeetingThread < ActiveRecord::Base
   validates_presence_of :from, :to
   
   belongs_to :user
+  has_many :calendar_guesses
   
 end

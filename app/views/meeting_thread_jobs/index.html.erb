@@ -1,0 +1,23 @@
+<h2>Meeting threads to work on</h2>
+
+<table>
+  <tr>
+    <th>To</th>
+    <th>CC</th>
+    <th>From</th>
+    <th>Subject</th>
+    <th></th>
+  </tr>
+
+<% @meeting_threads.each do |meeting_thread| %>
+  <tr>
+    <td><%= meeting_thread.to %></td>	
+    <td><%= meeting_thread.cc %></td>
+    <td><%= meeting_thread.from %></td>
+    <td><%= meeting_thread.subject %></td>
+    <td><%= link_to 'Show', meeting_thread %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

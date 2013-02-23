@@ -20,7 +20,9 @@ class MeetingThreadsController < ApplicationController
   # GET /meeting_threads/1.json
   def show
     @meeting_thread = MeetingThread.find(params[:id])
-
+    if (@current_user.type == "Turker")
+      @calendar_guess = @meeting_thread.calendar_guesses.build 
+    end
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @meeting_thread }

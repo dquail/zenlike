@@ -31,5 +31,9 @@
 </p>
 
 
-<%= link_to 'Edit', edit_meeting_thread_path(@meeting_thread) %> |
-<%= link_to 'Back', meeting_threads_path %>
+<% if @current_user.type =="Turker"%>
+	<%= render "calendar_guesses/meeting_thread_job_form"%>
+<%else%>
+	<%= link_to 'Edit', edit_meeting_thread_path(@meeting_thread) %> |
+<%end%>
+

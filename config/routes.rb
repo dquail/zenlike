@@ -1,5 +1,9 @@
 Zenlike::Application.routes.draw do
   
+  get "meeting_thread_jobs" => "meeting_thread_jobs#index", :as => "meeting_thread_jobs"
+
+  resources :calendar_guesses
+
   root :to => "users#new"
 
   #users
@@ -13,7 +17,8 @@ Zenlike::Application.routes.draw do
   get "log_in" => "sessions#new", :as => "log_in"
   
   #meetingthreads
-  resources :meeting_threads, :except=> [:new] do
+#  resources :meeting_threads, :except=> [:new] do
+  resources :meeting_threads do
     collection do
       post 'from_sendgrid'
     end
