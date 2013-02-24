@@ -5,8 +5,8 @@ class MeetingThreadJobsController < ApplicationController
   #hence a different viewcontroller and view paradigm
   
   before_filter :authorize_turk
-  # GET /meeting_threads
-  # GET /meeting_threads.json
+  # GET /meeting_threads_jobs
+  # GET /meeting_thread_jobs.json
   def index
     
     @meeting_threads = @current_user.available_jobs
@@ -15,6 +15,19 @@ class MeetingThreadJobsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @meeting_threads }
+    end
+  end
+
+
+  # GET /meeting_thread_jobs/1
+  # GET /meeting_thread_jobs/1.json
+  def show
+    @meeting_thread = MeetingThread.find(params[:id])
+    @calendar_guess = @meeting_thread.calendar_guesses.build 
+    
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @meeting_thread }
     end
   end
 

@@ -1,20 +1,26 @@
 Zenlike::Application.routes.draw do
   
-  get "meeting_thread_jobs" => "meeting_thread_jobs#index", :as => "meeting_thread_jobs"
-
+  get 'meeting_thread_jobs' => 'meeting_thread_jobs#index', :as => 'meeting_thread_jobs'
+  get 'meeting_thread_jobs/:id' => 'meeting_thread_jobs#show', :as => 'meeting_thread_job' 
+  
+   #match 'meeting_thread_jobs/:id' => 'meeting_thread_jobs#show', :as => :meeting_thread_job 
+#  match 'meeting_thread_jobs/show/:id'
+    # match ':controller(/:action(/:id))(.:format)'
+#  get 'meeting_thread_jobs/:id' => 'meeting_thread_job#show', :as => 'meeting_thread_job'
+  
   resources :calendar_guesses
 
   root :to => "users#new"
 
   #users
   resources :users
-  get "sign_up" => "users#new", :as => "sign_up"
+  get "sign_up" => 'users#new', :as => 'sign_up'
 
   
   #sessions
   resources :sessions
-  get "log_out" => "sessions#destroy", :as => "log_out"
-  get "log_in" => "sessions#new", :as => "log_in"
+  get 'log_out' => 'sessions#destroy', :as => 'log_out'
+  get 'log_in' => 'sessions#new', :as => 'log_in'
   
   #meetingthreads
 #  resources :meeting_threads, :except=> [:new] do
