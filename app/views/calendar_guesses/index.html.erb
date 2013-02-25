@@ -2,7 +2,8 @@
 
 <table>
   <tr>
-    <th>Time</th>
+    <th>Start Time</th>
+    <th>End Time</th>
     <th>Location</th>
     <th>participants</th>
     <th>Description</th>
@@ -10,7 +11,8 @@
 
 <% @calendar_guesses.each do |calendar_guess| %>
   <tr>
-    <td><%= calendar_guess.time %></td>	
+    <td><%= calendar_guess.start_time %></td>	
+    <td><%= calendar_guess.end_time %></td>	
     <td><%= calendar_guess.location %></td>
     <td><%= calendar_guess.participants %></td>
     <td><%= calendar_guess.description %></td>

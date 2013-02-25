@@ -10,16 +10,30 @@
       </ul>
     </div>
   <% end %>
-	<%= f.hidden_field :turker_id, :value => @current_user.id %>	
-	<%= f.hidden_field :meeting_thread_id, :value => @calendar_guess.meeting_thread.id %>	
+  <%= f.hidden_field :turker_id, :value => @current_user.id %>	
+  <%= f.hidden_field :meeting_thread_id, :value => @calendar_guess.meeting_thread.id %>	
+  
   <div class="field">
     <%= f.label :participants %><br />
-    <%= f.text_field :participants %>
+    <%= f.email_field :participants %>
   </div>
+
+  From
   <div class="field">
-    <%= f.label :time %><br />
-    <%= f.text_field :time %>
+    <%= f.datetime_select :start_date_time %>
   </div>
+
+  To
+  <div class="field">
+    <%= f.datetime_select :end_date_time %>
+  </div>
+
+  <div class="field">
+    <%= f.label :time_zone %><br />
+    <%= f.time_zone_select :time_zone %>
+  </div>
+
+
   <div class="field">
     <%= f.label :location %><br />
     <%= f.text_field :location %>
