@@ -3,7 +3,7 @@ class MeetingThreadJobsController < ApplicationController
   #This is just a pass through controller
   #it's model is meeting_threads but this is the viewcontroller that turks will interact with
   #hence a different viewcontroller and view paradigm
-  
+  layout 'turker_application'
   before_filter :authorize_turk
   # GET /meeting_threads_jobs
   # GET /meeting_thread_jobs.json

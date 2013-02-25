@@ -1,16 +1,55 @@
+class TurkerConstraint
+  def initialize
+    #todo - change calendar_match to whatever domain turks are directed to
+    @turker_host_names = ['localhost', 'herokuapp.com', 'calendar_match.com']
+  end
+ 
+  def matches?(request)
+    @turker_host_names.include?(request.host)
+  end
+end
+
+class RegularUserConstraint
+  def initialize
+    @regular_host_names = ['localhost', 'herokuapp.com', 'zenlike.me']
+  end
+ 
+  def matches?(request)
+    @regular_host_names.include?(request.host)
+  end
+end
+
+
 Zenlike::Application.routes.draw do
   
-  get 'meeting_thread_jobs' => 'meeting_thread_jobs#index', :as => 'meeting_thread_jobs'
-  get 'meeting_thread_jobs/:id' => 'meeting_thread_jobs#show', :as => 'meeting_thread_job' 
+  #########################################
+  #this is for all of the Turk based stuff
+  #########################################  
   
-   #match 'meeting_thread_jobs/:id' => 'meeting_thread_jobs#show', :as => :meeting_thread_job 
-#  match 'meeting_thread_jobs/show/:id'
-    # match ':controller(/:action(/:id))(.:format)'
-#  get 'meeting_thread_jobs/:id' => 'meeting_thread_job#show', :as => 'meeting_thread_job'
+  constraints TurkerConstraint.new do
+    get 'meeting_thread_jobs' => 'meeting_thread_jobs#index', :as => 'meeting_thread_jobs'
+    get 'meeting_thread_jobs/:id' => 'meeting_thread_jobs#show', :as => 'meeting_thread_job' 
+    resources :calendar_guesses
+  end
   
-  resources :calendar_guesses
+  #########################################
+  #this is for all the regular user type stuff
+  #########################################  
+  constraints RegularUserConstraint.new do
+    root :to => "users#new"
+    #meetingthreads
+    #  resources :meeting_threads, :except=> [:new] do
+      resources :meeting_threads do
+        collection do
+          post 'from_sendgrid'
+        end
+      end
 
-  root :to => "users#new"
+  end
+
+  #########################################
+  #common
+  #########################################  
 
   #users
   resources :users
@@ -22,13 +61,6 @@ Zenlike::Application.routes.draw do
   get 'log_out' => 'sessions#destroy', :as => 'log_out'
   get 'log_in' => 'sessions#new', :as => 'log_in'
   
-  #meetingthreads
-#  resources :meeting_threads, :except=> [:new] do
-  resources :meeting_threads do
-    collection do
-      post 'from_sendgrid'
-    end
-  end
     
   match 'users/:id/verify/:confirmation_code' => 'users#verify', :as => :verify_user
     

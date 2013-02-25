@@ -1,4 +1,5 @@
 class CalendarGuessesController < ApplicationController
+  layout 'turker_application'
   skip_before_filter :authorize, :only => [:from_sendgrid]
   # GET /callendar_guesses.html
   # GET /meeting_threads.json
