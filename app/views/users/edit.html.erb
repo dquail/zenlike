@@ -1,6 +1,5 @@
 <div class="user_form">
 	User email: <%= @user.email%>
-	User type: <%=@user.class%>
   <%= form_for @user do |f| %>
 
   <% if @user.errors.any? %>
@@ -14,12 +13,12 @@
       </ul>
     </div>
   <% end %>
-
+<%if @user.type != 'Turker'%>
   <div class="field">
     <%= f.label :timezone %><br />
     <%= f.time_zone_select :default_time_zone %>
   </div>
-
+<%end%>
   <%= f.submit 'Update' %>
 
   <br/>

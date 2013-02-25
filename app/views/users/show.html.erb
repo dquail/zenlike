@@ -1,10 +1,15 @@
+<%if @user.type == 'Turker'%>
+<h2>Welcome Turker</h2>
+<%end%>
 <p>
   Email:
   <%=@user.email %>
 </p>
+<%if @user.type != 'Turker'%>
 <p>
   Default Timezone:
   <%=@user.default_time_zone%>
 </p>
+<%end%>
 
 <%= link_to "Edit", edit_user_path(@user) %>
