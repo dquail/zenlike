@@ -1,7 +1,7 @@
 class TurkerConstraint
   def initialize
     #todo - change calendar_match to whatever domain turks are directed to
-    @turker_host_names = ['localhost', 'herokuapp.com', 'calendar_match.com']
+    @turker_host_names = ['lvh.me', 'herokuapp.com', 'calendar_match.com']
   end
  
   def matches?(request)
@@ -36,7 +36,7 @@ Zenlike::Application.routes.draw do
   #this is for all the regular user type stuff
   #########################################  
   constraints RegularUserConstraint.new do
-    root :to => "users#new"
+    
     #meetingthreads
     #  resources :meeting_threads, :except=> [:new] do
       resources :meeting_threads do
@@ -51,6 +51,8 @@ Zenlike::Application.routes.draw do
   #common
   #########################################  
 
+  root :to => "users#new"
+    
   #users
   resources :users
   get "sign_up" => 'users#new', :as => 'sign_up'

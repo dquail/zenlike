@@ -1,5 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+
+  layout :check_layout
+  
   before_filter :authorize
   helper_method :current_user
   
@@ -15,4 +18,9 @@ class ApplicationController < ActionController::Base
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
+
+  def check_layout
+    turker_host_names = ['lvh.me', 'herokuapp.com', 'calendar_match.com']  
+    turker_host_names.include?(request.host) ? "turker_application" : "application" 
+  end  
 end

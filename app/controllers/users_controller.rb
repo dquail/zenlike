@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_filter :authorize
-
+  
   def new
     @user = User.new
   end
@@ -31,8 +31,6 @@ class UsersController < ApplicationController
     else
         redirect_to root_url, :notice => 'Verification code was invalid'
     end
-
-    
   end
-  
+
 end
