@@ -1,0 +1,29 @@
+<div class="user_form">
+	User email: <%= @user.email%>
+	User type: <%=@user.class%>
+  <%= form_for @user do |f| %>
+
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@meeting_thread.errors.count, "error") %> prohibited this meeting_thread from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :timezone %><br />
+    <%= f.time_zone_select :default_time_zone %>
+  </div>
+
+  <%= f.submit 'Update' %>
+
+  <br/>
+  <%end%>
+
+
+</div>

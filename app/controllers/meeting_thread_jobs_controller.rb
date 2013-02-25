@@ -24,7 +24,7 @@ class MeetingThreadJobsController < ApplicationController
   def show
     @meeting_thread = MeetingThread.find(params[:id])
     @calendar_guess = @meeting_thread.calendar_guesses.build 
-    
+    @calendar_guess.time_zone = @meeting_thread.user.default_time_zone
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @meeting_thread }

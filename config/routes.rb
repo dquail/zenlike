@@ -55,7 +55,10 @@ Zenlike::Application.routes.draw do
     
   #users
   resources :users
+  resources :turkers, :path => :users
+  match 'users/:id' => 'users#show', :as => :account
   get "sign_up" => 'users#new', :as => 'sign_up'
+
 
   
   #sessions

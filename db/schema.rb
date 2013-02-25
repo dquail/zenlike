@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130225071616) do
+ActiveRecord::Schema.define(:version => 20130225181858) do
 
   create_table "calendar_guesses", :force => true do |t|
     t.datetime "created_at",        :null => false
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(:version => 20130225071616) do
     t.string   "confirmation_code"
     t.boolean  "confirmed",         :default => false
     t.string   "type"
+    t.string   "default_time_zone"
   end
 
 end

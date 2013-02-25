@@ -1,0 +1,10 @@
+<p>
+  Email:
+  <%=@user.email %>
+</p>
+<p>
+  Default Timezone:
+  <%=@user.default_time_zone%>
+</p>
+
+<%= link_to "Edit", edit_user_path(@user) %>
