@@ -19,5 +19,23 @@ class CalendarGuess < ActiveRecord::Base
   def start_must_be_before_end_time
       errors.add(:start_time, "must be before end time") unless
          self.start_date_time < self.end_date_time
-    end  
+  end  
+    
+  def == (other)
+    self_participant_array = self.participants.split(',')
+    other_participant_array = other.participants.split(',')
+    
+    if (self_participant_array - other_participant_array).length >  0 || (other_participant_array - self_participant_array).length > 0
+      return false 
+    end
+
+    if (self.start_date_time != other.start_date_time) then return false end
+    if (self.end_date_time != other.end_date_time)then return false end
+    if (self.time_zone != other.time_zone)then return false end
+    if (self.location != other.location)then return false end
+    if (self.description != other.description)then return false end
+    if (self.meeting_thread_id != other.meeting_thread_id)then return false end
+    return true
+    
+  end  
 end

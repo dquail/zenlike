@@ -105,24 +105,21 @@ class MeetingThreadsController < ApplicationController
         logger.debug "Received request to schedule meeting from valid email address"     
         begin
           @meeting_thread = user.meeting_threads.build :headers => params[:headers], :text => params[:text].force_encoding(charsets['text']).encode('UTF-8'), :html => params[:html].force_encoding(charsets['html']).encode('UTF-8'), :from => full_email, :to => params[:to], :cc => params[:cc], :subject => params[:subject]
-
           #save the meeting thread 
           @meeting_thread.save
-
-          #email user saying that a request will be created shortly
-          UserNotifier.meeting_thread_received(user).deliver
+          #Sending the user an email to say that it was received is in the MeetingThreadObserver
         rescue
-          UserNotifier.meeting_thread_exception(user).deliver
+          MeetingRequestMailer.meeting_thread_exception(user).deliver
         end
          
       else
         logger.debug "Received a request to schedule meeting from an unconfirmed address"
-        UserNotifier.meeting_thread_unconfirmed_email(user).deliver
+        MeetingRequestMailer.meeting_thread_unconfirmed_email(user).deliver
       end
     else
       #email user saying that they need to sign up for an account
       logger.debug "Receied request to schedule meeting from invalid email address"
-      UserNotifier.meeting_thread_invalid_email(email_address).deliver
+      MeetingRequestMailer.meeting_thread_invalid_email(email_address).deliver
     end
 
     

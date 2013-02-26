@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  meeting_thread_id: 1
+  location: MyString
+  participants: MyString
+  description: MyString
+  start_date_time: MyString
+  datetime: MyString
+  end_date_time: 2013-02-25 15:47:04
+  time_zone: MyString
+
+two:
+  meeting_thread_id: 1
+  location: MyString
+  participants: MyString
+  description: MyString
+  start_date_time: MyString
+  datetime: MyString
+  end_date_time: 2013-02-25 15:47:04
+  time_zone: MyString
