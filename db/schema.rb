@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130226053640) do
+ActiveRecord::Schema.define(:version => 20130227055318) do
 
   create_table "calendar_guesses", :force => true do |t|
     t.datetime "created_at",        :null => false
@@ -31,12 +31,12 @@ ActiveRecord::Schema.define(:version => 20130226053640) do
     t.string   "location"
     t.string   "participants"
     t.string   "description"
-    t.string   "start_date_time"
     t.string   "datetime"
-    t.datetime "end_date_time"
     t.string   "time_zone"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
+    t.datetime "start_date_time"
+    t.datetime "end_date_time"
   end
 
   create_table "meeting_threads", :force => true do |t|

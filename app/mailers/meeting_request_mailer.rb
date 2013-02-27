@@ -28,9 +28,10 @@ class MeetingRequestMailer < ActionMailer::Base
     mail to: 'david@zenlike.me'
   end
   
-  def send_meeting_request(meeting_request)
+  def send_meeting_request(meeting_request, event)
     @meeting_request = meeting_request
     Rails.logger.debug "send_meeting_request to #{meeting_request.participants} "    
+    attachments['event.ics'] = event.export()        
     mail to: meeting_request.participants
   end
 
