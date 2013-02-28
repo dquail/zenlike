@@ -21,13 +21,16 @@
 </p>
 
 <p>
-  <b>Text:</b>
-  <%= @meeting_thread.text %>
+  <%if @meeting_thread.html%>
+  	<%= raw(@meeting_thread.html) %>
+  <%elsif @meeting_thread.text%>
+  	<%= @meeting_thread.text %>
+  <%end%>
 </p>
 
 <p>
-  <b>Html:</b>
-  <%= raw(@meeting_thread.html) %>
+
+
 </p>
 
 
