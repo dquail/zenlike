@@ -26,12 +26,17 @@ Zenlike::Application.routes.draw do
   #this is for all of the Turk based stuff
   #########################################  
   
-  constraints TurkerConstraint.new do
-    get 'meeting_thread_jobs' => 'meeting_thread_jobs#index', :as => 'meeting_thread_jobs'
-    get 'meeting_thread_jobs/:id' => 'meeting_thread_jobs#show', :as => 'meeting_thread_job' 
-    resources :calendar_guesses
-  end
+  #constraints TurkerConstraint.new do
+  #  get 'meeting_thread_jobs' => 'meeting_thread_jobs#index', :as => 'meeting_thread_jobs'
+  #  get 'meeting_thread_jobs/:id' => 'meeting_thread_jobs#show', :as => 'meeting_thread_job' 
+  #  resources :calendar_guesses
+  #end
   
+  
+  get 'meeting_thread_jobs' => 'meeting_thread_jobs#index', :as => 'meeting_thread_jobs'
+  get 'meeting_thread_jobs/:id' => 'meeting_thread_jobs#show', :as => 'meeting_thread_job' 
+  resources :calendar_guesses
+    
   #########################################
   #this is for all the regular user type stuff
   #########################################  
