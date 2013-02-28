@@ -26,11 +26,7 @@ class MeetingThreadJobsController < ApplicationController
     @calendar_guess = @meeting_thread.calendar_guesses.build 
     @calendar_guess.time_zone = @meeting_thread.user.default_time_zone
 
-    if (@meeting_thread.html)
-      @calendar_guess.description = @meeting_thread.html
-    else
-      @calendar_guess.description = @meeting_thread.text
-    end
+
 
     respond_to do |format|
       format.html # show.html.erb
