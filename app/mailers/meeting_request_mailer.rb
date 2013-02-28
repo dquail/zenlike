@@ -37,7 +37,7 @@ class MeetingRequestMailer < ActionMailer::Base
     attachments['event.ics'] = {:mime_type => 'text/calendar; charset=UTF-8;method=REQUEST', :content => event.export() }           
     #attachments['gmail.ics'] = {:mime_type => 'text/calendar; charset=UTF-8;method=REQUEST', :content => File.read("#{Rails.root}/public/assets/Gmail.ics") }           
     #attachments.inline['gmail.ics'] = {:mime_type => 'text/calendar; charset=UTF-8;method=REQUEST', :content => File.read("#{Rails.root}/public/assets/Gmail.ics") }               
-    mail to: meeting_request.participants
+    mail to: meeting_request.participants, :subject => "Meeting Request #{meeting_request.meeting_thread.subject}"
   end
 
   def test_send_meeting_request(meeting_request)
