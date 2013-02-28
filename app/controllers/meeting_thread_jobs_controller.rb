@@ -27,7 +27,7 @@ class MeetingThreadJobsController < ApplicationController
     @calendar_guess.time_zone = @meeting_thread.user.default_time_zone
 
     if (@meeting_thread.html)
-      @calendar_guess.description = ActionController::Base.helpers.strip_tags(@meeting_thread.html)      
+      @calendar_guess.description = @meeting_thread.html
     else
       @calendar_guess.description = @meeting_thread.text
     end
