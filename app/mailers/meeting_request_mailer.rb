@@ -29,15 +29,31 @@ class MeetingRequestMailer < ActionMailer::Base
   end
   
   def send_meeting_request(meeting_request)
+
     @meeting_request = meeting_request
     event = meeting_request.to_ics
     Rails.logger.debug "send_meeting_request to #{meeting_request.participants} "    
-#    attachments['event.ics'] = event.export()  
-    attachments['event.ics'] = {:mime_type => 'text/calendar', :content => event.export() }           
+
+    attachments['event.ics'] = {:mime_type => 'text/calendar; charset=UTF-8;method=REQUEST', :content => event.export() }           
+    #attachments['gmail.ics'] = {:mime_type => 'text/calendar; charset=UTF-8;method=REQUEST', :content => File.read("#{Rails.root}/public/assets/Gmail.ics") }           
+    #attachments.inline['gmail.ics'] = {:mime_type => 'text/calendar; charset=UTF-8;method=REQUEST', :content => File.read("#{Rails.root}/public/assets/Gmail.ics") }               
     mail to: meeting_request.participants
   end
 
-  def test_send_meeting_request
-    mail to: "david_quail@hotmail.com"
-  end
+  def test_send_meeting_request(meeting_request)
+
+    attachments['gmail.ics'] = {:mime_type => 'text/calendar; charset=UTF-8;method=REQUEST', :content => File.read("#{Rails.root}/public/assets/Gmail.ics") }           
+    mail(:to => "#{meeting_request.participants}", :subject => "iCalendar test") do |format|
+      format.html
+      format.text
+      format.ics do
+         @meeting_request = meeting_request
+         event = meeting_request.to_ics
+
+         #attachments['event.ics'] = {:mime_type => 'text/calendar; charset=UTF-8;method=REQUEST', :content => event.export() }           
+         #attachments['gmail.ics'] = {:mime_type => 'text/calendar; charset=UTF-8;method=REQUEST', :content => File.read("#{Rails.root}/public/assets/Gmail.ics") }           
+         render :text => File.read("#{Rails.root}/public/assets/Gmail.ics"), :layout => false
+      end
+    end
+  end  
 end

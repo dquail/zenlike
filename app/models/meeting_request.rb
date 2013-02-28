@@ -17,6 +17,7 @@ class MeetingRequest < ActiveRecord::Base
         end    
   end
 
+
   def to_ics
     meeting_request = self
     event = RiCal.Event do
@@ -25,6 +26,8 @@ class MeetingRequest < ActiveRecord::Base
           dtstart     meeting_request.start_date_time.strftime("%Y%m%dT%H%M%S")
           dtend       meeting_request.start_date_time.strftime("%Y%m%dT%H%M%S")
           location    meeting_request.location
+          organizer   'accounts@zenlike.me'
+          uid         meeting_request.id.to_s
           meeting_request.participants.split(/,\s*/).each do |email| 
             add_attendee email
           end
