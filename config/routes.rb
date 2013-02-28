@@ -1,7 +1,7 @@
 class TurkerConstraint
   def initialize
     #todo - change calendar_match to whatever domain turks are directed to
-    @turker_host_names = ['lvh.me', 'herokuapp.com', 'calendar_match.com']
+    @turker_host_names = ['lvh.me','herokuapp.com', 'damp-atoll-5103.herokuapp.com/', 'calendar_match.com']
   end
  
   def matches?(request)
@@ -11,7 +11,7 @@ end
 
 class RegularUserConstraint
   def initialize
-    @regular_host_names = ['localhost', 'herokuapp.com', 'zenlike.me']
+    @regular_host_names = ['localhost', 'herokuapp.com','damp-atoll-5103.herokuapp.com', 'zenlike.me']
   end
  
   def matches?(request)
