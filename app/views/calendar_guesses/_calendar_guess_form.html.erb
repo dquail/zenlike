@@ -40,6 +40,11 @@
   </div>
 
   <div class="field">
+    <%= f.label :summary, "Summary (Participant1, Participant2, Location, etc)" %><br />
+    <%= f.text_field :summary, :size => '80' %>
+  </div>
+
+  <div class="field">
     <%= f.label :description, "Description (copy and paste the email message)" %><br />
     <%= f.text_area :description, :size => '80X80' %>
   </div>

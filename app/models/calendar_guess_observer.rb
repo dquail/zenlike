@@ -38,6 +38,7 @@ class CalendarGuessObserver < ActiveRecord::Observer
       meeting_request.location = calendar_guess.location
       meeting_request.participants = calendar_guess.participants
       meeting_request.description = calendar_guess.description
+      meeting_request.summary = calendar_guess.summary
       meeting_request.save
     end
     if (meeting_thread.calendar_guesses.length + 1 >= NUMBER_OF_GUESSES_BEFORE_GIVING_UP)

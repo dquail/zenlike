@@ -1,6 +1,6 @@
 class CalendarGuess < ActiveRecord::Base
   
-  attr_accessible :participants, :start_date_time, :end_date_time, :time_zone, :location, :description, :turker_id, :meeting_thread_id
+  attr_accessible :summary, :participants, :start_date_time, :end_date_time, :time_zone, :location, :description, :turker_id, :meeting_thread_id
   validates_presence_of :participants, :start_date_time, :end_date_time, :time_zone, :location, :turker_id, :meeting_thread_id
   validate :check_participants
   validate :start_must_be_before_end_time
