@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_layout
-    turker_host_names = ['lvh.me', 'herokuapp.com', 'calendar_match.com']  
+    turker_host_names = ['lvh.me', 'turk.zenlike.me', 'makemeeting.info']  
     turker_host_names.include?(request.host) ? "turker_application" : "application" 
   end  
 end
