@@ -2,14 +2,15 @@ require 'json'
 
 class MeetingThreadsController < ApplicationController
   
-  skip_before_filter :authorize, :only => [:from_sendgrid]
+  load_and_authorize_resource :except => [:from_sendgrid]
+
   # GET /meeting_threads
   # GET /meeting_threads.json
   def index
-    #@meeting_threads = MeetingThread.all
 
-    @meeting_threads = @current_user.meeting_threads
-    
+    #@meeting_threads = MeetingThread.all
+    @meeting_threads = current_user.meeting_threads
+    @current_user = current_user
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @meeting_threads }
@@ -19,8 +20,8 @@ class MeetingThreadsController < ApplicationController
   # GET /meeting_threads/1
   # GET /meeting_threads/1.json
   def show
-    @meeting_thread = MeetingThread.find(params[:id])
-    if (@current_user.type == "Turker")
+    #@meeting_thread = MeetingThread.find(params[:id])
+    if @current_user.is?("Turker")
       @calendar_guess = @meeting_thread.calendar_guesses.build 
     end
     respond_to do |format|
@@ -32,7 +33,7 @@ class MeetingThreadsController < ApplicationController
   # GET /meeting_threads/new
   # GET /meeting_threads/new.json
   def new
-    @meeting_thread = MeetingThread.new
+    #@meeting_thread = MeetingThread.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -42,13 +43,13 @@ class MeetingThreadsController < ApplicationController
 
   # GET /meeting_threads/1/edit
   def edit
-    @meeting_thread = MeetingThread.find(params[:id])
+    #@meeting_thread = MeetingThread.find(params[:id])
   end
 
   # POST /meeting_threads
   # POST /meeting_threads.json
   def create
-    @meeting_thread = MeetingThread.new(params[:meeting_thread])
+   # @meeting_thread = MeetingThread.new(params[:meeting_thread])
 
     respond_to do |format|
       if @meeting_thread.save
@@ -64,7 +65,7 @@ class MeetingThreadsController < ApplicationController
   # PUT /meeting_threads/1
   # PUT /meeting_threads/1.json
   def update
-    @meeting_thread = MeetingThread.find(params[:id])
+    #@meeting_thread = MeetingThread.find(params[:id])
 
     respond_to do |format|
       if @meeting_thread.update_attributes(params[:meeting_thread])
@@ -80,7 +81,7 @@ class MeetingThreadsController < ApplicationController
   # DELETE /meeting_threads/1
   # DELETE /meeting_threads/1.json
   def destroy
-    @meeting_thread = MeetingThread.find(params[:id])
+   # @meeting_thread = MeetingThread.find(params[:id])
     @meeting_thread.destroy
 
     respond_to do |format|

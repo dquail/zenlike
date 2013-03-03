@@ -3,14 +3,15 @@ class MeetingThreadJobsController < ApplicationController
   #This is just a pass through controller
   #it's model is meeting_threads but this is the viewcontroller that turks will interact with
   #hence a different viewcontroller and view paradigm
-  layout 'turker_application'
-  before_filter :authorize_turk
+
+  before_filter :authorize_turker
+  
   # GET /meeting_threads_jobs
   # GET /meeting_thread_jobs.json
   def index
     
     @meeting_threads = @current_user.available_jobs
-
+    
     
     respond_to do |format|
       format.html # index.html.erb
@@ -35,9 +36,7 @@ class MeetingThreadJobsController < ApplicationController
   end
 
 protected
-  def authorize_turk
-    if (@current_user.type!= "Turker")
-      redirect_to log_in_url, notice: "You must first log in to view jobs"
-    end
+  def authorize_turker
+    authorize! :create, CalendarGuess
   end
 end

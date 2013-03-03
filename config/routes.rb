@@ -22,6 +22,8 @@ end
 
 Zenlike::Application.routes.draw do
   
+  get "home/index"
+
   #########################################
   #this is for all of the Turk based stuff
   #########################################  
@@ -56,25 +58,9 @@ Zenlike::Application.routes.draw do
   #common
   #########################################  
 
-  root :to => "users#new"
+  root :to => "home#index"
     
-  #users
-  resources :users
-  resources :turkers, :path => :users
-  match 'users/:id' => 'users#show', :as => :account
-  get "sign_up" => 'users#new', :as => 'sign_up'
-
-
-  
-  #sessions
-  resources :sessions
-  get 'log_out' => 'sessions#destroy', :as => 'log_out'
-  get 'log_in' => 'sessions#new', :as => 'log_in'
-  
-    
-  match 'users/:id/verify/:confirmation_code' => 'users#verify', :as => :verify_user
-    
-  
+  devise_for :users
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -3,23 +3,15 @@ class ApplicationController < ActionController::Base
 
   layout :check_layout
   
-  before_filter :authorize
-  helper_method :current_user
   helper_method :current_host_type
+  
+  rescue_from CanCan::AccessDenied do |exception|
+    flash[:error] = "Access denied."
+    redirect_to root_url
+  end
   
   protected
   
-  def authorize
-    unless User.find_by_id(session[:user_id])
-      redirect_to log_in_url, notice: "You must first log in"
-    end
-    @current_user = self.current_user
-  end 
-  
-  def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
-  end
-
   def current_host_type
     turker_host_names = ['lvh.me', 'turk.zenlike.me', 'makemeeting.info']      
     meeting_host_names = ['meetings.zenlike.me', 'localhost']

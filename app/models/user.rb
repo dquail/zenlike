@@ -1,33 +1,31 @@
 class User < ActiveRecord::Base
-  attr_accessible :email, :password, :password_confirmation, :default_time_zone 
+
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable
+           
+  attr_accessible :email, :password, :password_confirmation, :default_time_zone, :remember_me, :roles
   
-  attr_accessor :password
-  before_save :encrypt_password
-  
-  validates_confirmation_of :password
-  validates_presence_of :password, :on => :create
-  validates_presence_of :email
-  validates_uniqueness_of :email
-  validates_format_of :email, :with => 
-  /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :on => :create, :messgae => "incorrect email format" 
-  
+  #has_and_belongs_to_many :roles
   
   has_many :meeting_threads
+  has_many :available_jobs, :class_name => "MeetingThread", 
+       :finder_sql => proc {"SELECT DISTINCT meeting_threads.*  FROM meeting_threads LEFT JOIN calendar_guesses ON meeting_threads.id = calendar_guesses.meeting_thread_id WHERE calendar_guesses.turker_id IS NULL OR calendar_guesses.turker_id <> #{self.id}"}, :readonly => true  
   
-  def self.authenticate(email, password)
-    user = find_by_email(email)
-    if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
-      user
-    else
-      nil
-    end
+  
+  ROLES = %w[admin turker meeting_user assistant_user]
+  
+  def is?(role)
+    roles.include?(role.to_s)
   end
-  
-  def encrypt_password
-    if password.present?
-      self.password_salt = BCrypt::Engine.generate_salt
-      self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
-    end
+    
+  def roles=(roles)
+   self.roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.inject(0, :+)
+  end
+
+  def roles
+   ROLES.reject do |r|
+     ((roles_mask || 0) & 2**ROLES.index(r)).zero?
+   end
   end
   
 end
