@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   
   before_filter :authorize
   helper_method :current_user
+  helper_method :current_host_type
   
   protected
   
@@ -19,8 +20,28 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
 
+  def current_host_type
+    turker_host_names = ['lvh.me', 'turk.zenlike.me', 'makemeeting.info']      
+    meeting_host_names = ['meetings.zenlike.me', 'localhost']
+    myassistant_host_names = ['myassistant.zenlike.me', 'localhost']
+    if (turker_host_names.include?(request.host))
+      return 'Turker'
+    elsif(meeting_host_names.include?(request.host))
+      return 'Meeting'
+    elsif(myassistant_host_names.include?(request.host))
+      return 'Assistant'
+    end
+  end 
+  
   def check_layout
-    turker_host_names = ['lvh.me', 'turk.zenlike.me', 'makemeeting.info']  
-    turker_host_names.include?(request.host) ? "turker_application" : "application" 
+    if (self.current_host_type == 'Turker')
+      return 'turker_application'
+    elseif (self.current_host_type == 'Meeting')
+      return 'meeting_application'
+    elseif (self.current_host_type == 'Assistant')
+      return 'assistant_application'
+    else
+      return 'application'
+    end
   end  
 end
