@@ -10,11 +10,15 @@ class Ability
        elsif user.is?('turker')
          can :create, CalendarGuess
          can :read, MeetingThread
-       elsif user.is?('meeting_user')
+       elsif user.is?('regular')
          can :manage, MeetingThread do |meeting_thread|
            meeting_thread.try(:user) == user
          end
          can :create, MeetingThread
+         can :manage, Subscription do |subscription|
+            subscription.try(:user) == user
+         end
+         can :create, Subscription
        end
       
       

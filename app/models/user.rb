@@ -10,9 +10,11 @@ class User < ActiveRecord::Base
   has_many :meeting_threads
   has_many :available_jobs, :class_name => "MeetingThread", 
        :finder_sql => proc {"SELECT DISTINCT meeting_threads.*  FROM meeting_threads LEFT JOIN calendar_guesses ON meeting_threads.id = calendar_guesses.meeting_thread_id WHERE calendar_guesses.turker_id IS NULL OR calendar_guesses.turker_id <> #{self.id}"}, :readonly => true  
+  has_one :subscription
+  has_one :plan, :through => :subscription
   
-  
-  ROLES = %w[admin turker meeting_user assistant_user]
+  ROLES = %w[turker regular admin]
+  PLANS = %w[free silver gold platinum]
   
   def is?(role)
     roles.include?(role.to_s)

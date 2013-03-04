@@ -21,7 +21,7 @@ end
 
 
 Zenlike::Application.routes.draw do
-  
+
   get "home/index"
 
   #########################################
@@ -60,7 +60,16 @@ Zenlike::Application.routes.draw do
 
   root :to => "home#index"
     
-  devise_for :users
+  devise_for :users, :controllers => { :subscriptions => 'subscriptions' }
+  devise_scope :user do
+    put 'update_plan', :to => 'subscriptions#update_plan'
+    put 'update_card', :to => 'subscriptions#update_card'
+  end
+  
+  resources :users
+
+  resources :subscriptions
+  resources :plans
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

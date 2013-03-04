@@ -1,6 +1,8 @@
 class CalendarGuessesController < ApplicationController
   layout 'turker_application'
-  skip_before_filter :authorize, :only => [:from_sendgrid]
+  
+  load_and_authorize_resource
+  
   # GET /callendar_guesses.html
   # GET /meeting_threads.json
   def index
@@ -17,7 +19,7 @@ class CalendarGuessesController < ApplicationController
   # GET /calendar_guesses/1
   # GET /calendar_guesses/1.json
   def show
-    @calendar_guess = CalendarGuess.find(params[:id])
+    #@calendar_guess = CalendarGuess.find(params[:id])
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @calendar_guess }
@@ -27,7 +29,7 @@ class CalendarGuessesController < ApplicationController
   # GET /calendar_guesses/new
   # GET /calendar_guesses/new.json
   def new
-    @calendar_guess = CalendarGuess.new
+    #@calendar_guess = CalendarGuess.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -37,14 +39,14 @@ class CalendarGuessesController < ApplicationController
 
   # GET /calendar_guesses/1/edit
   def edit
-    @calendar_guess = CalendarGuess.find(params[:id])
+    #@calendar_guess = CalendarGuess.find(params[:id])
     @calendar_guess.turker = @current_user
   end
 
   # POST /calendar_guess
   # POST /calendar_guess.json
   def create
-    @calendar_guess = CalendarGuess.new(params[:calendar_guess])
+    #@calendar_guess = CalendarGuess.new(params[:calendar_guess])
     
     respond_to do |format|
       if @calendar_guess.save
@@ -60,7 +62,7 @@ class CalendarGuessesController < ApplicationController
   # PUT /calendar_guess/1
   # PUT /calendar_guess/1.json
   def update
-    @calendar_guess = CalendarGuess.find(params[:id])
+    #@calendar_guess = CalendarGuess.find(params[:id])
 
     respond_to do |format|
       if @@calendar_guess.update_attributes(params[:calendar_guess])
@@ -76,7 +78,7 @@ class CalendarGuessesController < ApplicationController
   # DELETE /calendar_guess/1
   # DELETE /calendar_guess/1.json
   def destroy
-    @calendar_guess = CalendarGuess.find(params[:id])
+    #@calendar_guess = CalendarGuess.find(params[:id])
     @calendar_guess.destroy
 
     respond_to do |format|

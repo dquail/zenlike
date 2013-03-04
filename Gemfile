@@ -10,6 +10,8 @@ gem "bcrypt-ruby", :require => "bcrypt"
 gem 'ri_cal'
 gem 'devise'
 gem 'cancan'
+gem 'jquery-timepicker-rails'
+gem 'stripe'
 
 # Gems used only for assets and not required
 # in production environments by default.
