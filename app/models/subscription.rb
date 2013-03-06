@@ -9,6 +9,8 @@ class Subscription < ActiveRecord::Base
   attr_accessor :stripe_card_token
   
   def save_with_payment
+    #TODO - Check to see if the user already has a payment set up.  If they do, we just need to 
+    #update teh existing payment plan.  Otherwise we need to create a new one
     if valid?
       customer = Stripe::Customer.create(description: user.email, plan: plan.stripe_id, card: stripe_card_token)
       self.stripe_customer_token = customer.id

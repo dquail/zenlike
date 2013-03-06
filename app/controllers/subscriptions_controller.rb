@@ -3,7 +3,7 @@ class SubscriptionsController < ApplicationController
   
   def new
     plan = Plan.find(params[:plan_id])
-    
+
     @subscription = current_user.build_subscription
     @subscription.plan = plan
   end

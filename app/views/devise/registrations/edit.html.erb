@@ -37,10 +37,10 @@
 <h3>Subscription Plan: 
 	<%if @user.plan%>
 		<%=@user.subscription.plan.name%>     
-		<%= link_to 'Change', @user.subscription %>
+		<%= link_to 'Change', plans_path %>
 	<%else%>
 		Free 
-		<%= link_to 'Change', edit_plans_path %>
+		<%= link_to 'Change', plans_path %>
 	<%end%>
 </h3> 
 

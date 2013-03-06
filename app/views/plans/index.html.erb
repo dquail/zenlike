@@ -1,5 +1,12 @@
 <div id="plans">
   <h1>Zenlike Plans</h1>
+	<h3>Current Plan: 
+		<%if current_user.plan %>
+			<%=current_user.plan.name%>
+		<%else%>
+			Free
+		<%end%>
+	</h3>
   <% @plans.each do |plan| %>
     <div class="plan">
       <div class="name"><%= plan.name %></div>
