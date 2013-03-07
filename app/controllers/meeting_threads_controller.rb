@@ -105,14 +105,17 @@ class MeetingThreadsController < ApplicationController
       if (user.confirmed?)
         logger.debug "Received request to schedule meeting from valid email address"     
         #begin
-          safehtml = ActionController::Base.helpers.sanitize(params[:html])
-          
+          #safehtml = ActionController::Base.helpers.sanitize(params[:html])
+          safehtml = params[:html]
+          logger.info "building meeting_thread"
           @meeting_thread = user.meeting_threads.build :headers => params[:headers], :text => params[:text].force_encoding(charsets['text']).encode('UTF-8'), :html => safehtml.force_encoding(charsets['html']).encode('UTF-8'), :from => full_email, :to => params[:to], :cc => params[:cc], :subject => params[:subject]
           #save the meeting thread 
+          logger.info "saving thread"
           @meeting_thread.save
+          logger.info "saved thread"
           #Sending the user an email to say that it was received is in the MeetingThreadObserver
         #rescue
-          MeetingRequestMailer.meeting_thread_exception(user).deliver
+          #MeetingRequestMailer.meeting_thread_exception(user).deliver
         #end
          
       else
