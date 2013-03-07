@@ -125,7 +125,7 @@ class MeetingThreadsController < ApplicationController
     else
       #email user saying that they need to sign up for an account
       logger.debug "Receied request to schedule meeting from invalid email address"
-      MeetingRequestMailer.meeting_thread_invalid_email(email_address).deliver
+      #MeetingRequestMailer.meeting_thread_invalid_email(email_address).deliver
     end
 
     
