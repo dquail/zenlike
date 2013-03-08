@@ -18,7 +18,12 @@
         <div class="credits"><%= plan.credits %> credits</div>
         <div class="per_month">per month</div>
         <div class="signup">
-          <%= link_to "Sign up", new_subscription_path(:plan_id => plan.id) %>
+		  <%if current_user.subscription%>
+		    <%= link_to "Change", edit_subscription_path(current_user.subscription, :plan_id => plan.id) %>
+		  <%else%>
+          	<%= link_to "Sign up", new_subscription_path(:plan_id => plan.id) %>
+		  <%end%>
+
         </div>
       </div>
     </div>

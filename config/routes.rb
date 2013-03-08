@@ -62,8 +62,8 @@ Zenlike::Application.routes.draw do
     
   devise_for :users, :controllers => { :subscriptions => 'subscriptions' }
   devise_scope :user do
-    put 'update_plan', :to => 'subscriptions#update_plan'
-    put 'update_card', :to => 'subscriptions#update_card'
+    #get 'update_plan', :to => 'subscriptions#edit'
+    #put 'update_card', :to => 'subscriptions#update_card'
   end
   
   resources :users

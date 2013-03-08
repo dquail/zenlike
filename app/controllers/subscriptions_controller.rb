@@ -21,5 +21,16 @@ class SubscriptionsController < ApplicationController
   def show
     @subscription = Subscription.find(params[:id])
   end
+  
+  def edit
+    plan = Plan.find(params[:plan_id])
+    @subscription = current_user.subscription
+    @subscription.plan = plan
+    if @subscription.save_with_payment
+        redirect_to @subscription, :notice => "Thank you for subscribing!"
+      else
+        render :new
+    end
+  end
 
 end

@@ -10,10 +10,15 @@ class Subscription < ActiveRecord::Base
   
   def save_with_payment
     #TODO - Check to see if the user already has a payment set up.  If they do, we just need to 
-    #update teh existing payment plan.  Otherwise we need to create a new one
+    #update the existing payment plan.  Otherwise we need to create a new one
     if valid?
-      customer = Stripe::Customer.create(description: user.email, plan: plan.stripe_id, card: stripe_card_token)
-      self.stripe_customer_token = customer.id
+      if stripe_customer_token
+        customer = Stripe::Customer.retrieve(stripe_customer_token)
+        customer.update_subscription(plan: plan.stripe_id, prorate:true)
+      else
+        customer = Stripe::Customer.create(description: user.email, plan: plan.stripe_id, card: stripe_card_token)
+      end
+      self.stripe_customer_token = customer.id      
       save!
     end
   rescue Stripe::InvalidRequestError => e
