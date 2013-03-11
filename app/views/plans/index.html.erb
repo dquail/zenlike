@@ -1,32 +1,37 @@
-<div id="plans">
-  <h1>Zenlike Plans</h1>
-	<h3>Current Plan: 
-		<%if current_user.plan %>
-			<%=current_user.plan.name%>
-		<%else%>
-			Free
-		<%end%>
-	</h3>
-  <% @plans.each do |plan| %>
-    <div class="plan">
-      <div class="name"><%= plan.name %></div>
-      <div class="details">
-        <div class="price">
-          <%= number_to_currency plan.price, :precision => 0 %>
-        </div>
-        <div class="per_month">per month</div>
-        <div class="credits"><%= plan.credits %> credits</div>
-        <div class="per_month">per month</div>
-        <div class="signup">
-		  <%if current_user.subscription%>
-		    <%= link_to "Change", edit_subscription_path(current_user.subscription, :plan_id => plan.id) %>
-		  <%else%>
-          	<%= link_to "Sign up", new_subscription_path(:plan_id => plan.id) %>
-		  <%end%>
+<div id="welcome" class="hero-unit span8">
+  <h2>Zenlike plans</h2>
+  <p><em>*All prices are based on a monthly subscription</em></p>
+  <%if current_user.subscription%>
+  	<p><em>*Your current subscription is <%=current_user.subscription.plan.name%></em></p>
+  <%end%>
 
-        </div>
-      </div>
-    </div>
-  <% end %>
-  <div class="clear"></div>
+</div>
+
+<div class="row span8 plans">
+  <div class="span2 well">
+    <div class="plan"><h2>Silver</h2></div>
+    <ul class="unstyled">
+      <li>10 free meeting coordinations a month</li>
+    </ul>
+    <h3>$9.99</h3>
+    <%= link_to 'Subscribe', new_subscription_path(:plan_name => 'Silver'), :class => 'btn btn-primary' %> 
+  </div>
+  <div class="span2 well featured">
+    <div class="plan featured-plan"><h2>Gold</h2></div>
+    <ul class="unstyled">
+      <li>50 free meeting coordinations a month</li>
+    </ul>
+    <h3>$19.99</h3>
+    <%= link_to 'Subscribe', new_subscription_path(:plan_name => 'Gold'), :class => 'btn btn-primary' %> 
+  </div>
+  <div class="span2 well">
+    <div class="plan"><h2>Elite</h2></div>
+    <ul class="unstyled">
+      <li>Unlimited meeting coordinations + virtual assistant</li>
+    </ul>
+    <h3>$199.99</h3>
+    <%= link_to 'Subscribe', new_subscription_path(:plan_name => 'Platinum'), :class => 'btn btn-primary' %> 
+  </div>
+<br/><br/>
+
 </div>

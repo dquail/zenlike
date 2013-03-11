@@ -9,16 +9,19 @@ class Subscription < ActiveRecord::Base
   attr_accessor :stripe_card_token
   
   def save_with_payment
-    #TODO - Check to see if the user already has a payment set up.  If they do, we just need to 
-    #update the existing payment plan.  Otherwise we need to create a new one
     if valid?
       if stripe_customer_token
+        logger.debug "Updating card of existing stripe user"
         customer = Stripe::Customer.retrieve(stripe_customer_token)
-        customer.update_subscription(plan: plan.stripe_id, prorate:true)
+        customer.card = stripe_card_token
+        customer.save        
       else
+        logger.debug "Creating new stripe user"
         customer = Stripe::Customer.create(description: user.email, plan: plan.stripe_id, card: stripe_card_token)
       end
-      self.stripe_customer_token = customer.id      
+
+      self.stripe_customer_token = customer.id     
+      self.last_4_digits = customer.active_card.last4         
       save!
     end
   rescue Stripe::InvalidRequestError => e
@@ -26,4 +29,11 @@ class Subscription < ActiveRecord::Base
     errors.add :base, "There was a problem with your credit card."
     false
   end
+
+  
+  def update_plan
+    #TODO - just stubbed in
+  end
+
+
 end
