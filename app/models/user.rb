@@ -14,7 +14,6 @@ class User < ActiveRecord::Base
   has_one :plan, :through => :subscription
   
   ROLES = %w[turker regular admin]
-  PLANS = %w[free silver gold platinum]
   
   def is?(role)
     roles.include?(role.to_s)
