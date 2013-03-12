@@ -1,4 +1,4 @@
-<%= form_for(@meeting_thread) do |f| %>
+<%= form_for @meeting_thread, :html => {:class => 'form-horizontal'} do |f| %>
   <% if @meeting_thread.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@meeting_thread.errors.count, "error") %> prohibited this meeting_thread from being saved:</h2>

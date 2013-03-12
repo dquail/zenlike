@@ -13,7 +13,6 @@
 		  <th>Subject</th>
 		  <th></th>
 		  <th></th>
-		  <th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -24,7 +23,6 @@
 		    <td><%= meeting_thread.from %></td>
 		    <td><%= meeting_thread.subject %></td>
 		    <td><%= link_to 'Show', meeting_thread, :class => "btn btn-mini" %></td>
-		    <td><%= link_to 'Edit', edit_meeting_thread_path(meeting_thread), :class => "btn btn-mini" %></td>
 		    <td><%= link_to 'Destroy', meeting_thread, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-mini btn-danger" %></td>
 		  </tr>
 		<% end %>
