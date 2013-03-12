@@ -1,19 +1,23 @@
-<h2>Meeting threads to work on</h2>
+<h2>Meetings to make</h2>
 
-<table>
-  <tr>
-	<th>From</th>
-    <th>Subject</th>
-    <th></th>
-  </tr>
+<table class = "table table-striped">
+	<thead>
+		<tr>
+		  <th>From</th>
+		  <th>Subject</th>
+		  <th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @meeting_threads.each do |meeting_thread| %>
+		  <tr>
+		    <td><%= meeting_thread.from %></td>
+		    <td><%= meeting_thread.subject %></td>
+			<td><%= link_to "Complete job", meeting_thread_job_path(meeting_thread), :class => "btn btn-mini"%></td>
+		  </tr>
+		<% end %>
 
-<% @meeting_threads.each do |meeting_thread| %>
-  <tr>
-    <td><%= meeting_thread.from %></td>
-    <td><%= meeting_thread.subject %></td>
-	<td><%= link_to "Complete job", meeting_thread_job_path(meeting_thread)%></td>
-  </tr>
-<% end %>
+	</tbody>
 </table>
 
-<br />
+
