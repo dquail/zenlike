@@ -68,7 +68,6 @@ Zenlike::Application.routes.draw do
   
   put 'update_plan', :to => 'subscriptions#update_plan'
   put 'update_card', :to => 'subscriptions#update_card'
-  
   resources :plans
 
   # The priority is based upon order of creation:

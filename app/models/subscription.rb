@@ -42,14 +42,14 @@ class Subscription < ActiveRecord::Base
           customer = Stripe::Customer.retrieve(stripe_customer_token)
           customer.update_subscription(:plan => plan.stripe_id, :prorate => true)
           customer.save        
-          save!
-        else
-          logger.error "can not update plan of non existant subscription"
-          false
-        end
 
-        self.stripe_customer_token = customer.id     
-        self.last_4_digits = customer.active_card.last4         
+          self.stripe_customer_token = customer.id     
+          self.last_4_digits = customer.active_card.last4         
+
+        else
+          logger.info "Updating free plan"
+
+        end
         save!
       end
     rescue Stripe::InvalidRequestError => e

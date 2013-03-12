@@ -54,7 +54,12 @@ class SubscriptionsController < ApplicationController
   def update_plan
     if (@current_user.subscription)
       @subscription = @current_user.subscription
-      plan = Plan.find(params[:subscription][:plan_id])
+      if (params[:subscription]) && params[:subscription][:plan_id]
+        plan = Plan.find(params[:subscription][:plan_id])
+      else
+        plan = Plan.find_by_name(params[:plan_name])
+      end
+      
       @subscription.plan = plan
 
       if @subscription.update_plan
