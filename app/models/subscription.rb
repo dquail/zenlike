@@ -14,15 +14,17 @@ class Subscription < ActiveRecord::Base
   def save_with_payment
     if valid?
       if stripe_customer_token
-        logger.debug "Updating card of existing stripe user"
+        logger.info "Updating card of existing stripe user"
         customer = Stripe::Customer.retrieve(stripe_customer_token)
         customer.card = stripe_card_token
         customer.save        
       else
-        logger.debug "Creating new stripe user"
+        logger.info "Creating new stripe user with plan of #{plan.stripe_id} and token #{stripe_card_token}"
         customer = Stripe::Customer.create(description: user.email, plan: plan.stripe_id, card: stripe_card_token)
       end
-
+      
+      logger.info "Setting stripe_customer_token to #{customer.id} "
+      logger.info "Its description is #{customer.description} "      
       self.stripe_customer_token = customer.id     
       self.last_4_digits = customer.active_card.last4         
       save!
@@ -38,7 +40,7 @@ class Subscription < ActiveRecord::Base
     
       if valid?
         if stripe_customer_token
-          logger.debug "Updating plan of existing stripe user"
+          logger.info "Updating plan of existing stripe user"
           customer = Stripe::Customer.retrieve(stripe_customer_token)
           customer.update_subscription(:plan => plan.stripe_id, :prorate => true)
           customer.save        

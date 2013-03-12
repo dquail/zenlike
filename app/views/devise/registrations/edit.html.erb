@@ -1,51 +1,54 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<h2>Your account <%= @user.email %></h2>
 
-<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => "form-vertical" }) do |f| %>
-  <%= devise_error_messages! %>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-  <%= f.error_notification %>
-  <%= f.input :email, :required => true %>
-  <%= f.input :password, :autocomplete => "off", :hint => "leave it blank if you don't want to change it", :required => false %>
-  <%= f.input :password_confirmation, :required => false %>
-  <%= f.input :current_password, :hint => "we need your current password to confirm your changes", :required => true %>
-
-	<br/>
-	<div>
-	<% for role in User::ROLES %>
-		<%if role == 'admin1' || role == 'turker1'%>
-
-		<%else%>
-		 <%= check_box_tag "user[roles][#{role}]", role, @user.roles.include?(role), {:name => "user[roles][]"}%>
-		 <%= label_tag "user_roles_#{role}", role.humanize %><br />
-		<%end%>
-
-	<% end %>
-	<%= hidden_field_tag "user[roles][]", "" %>
-	</div>
-	<br/>
-  <%= f.button :submit, 'Update', :class => 'btn-primary' %>  
-<% end %>
-
-<h3>Subscription Plan: </h3> 
-<%if @user.plan%>
-	<p><%=@user.subscription.plan.name%></p>
+<h3>Current Subscription Plan:  
+<%if @user.plan && @user.plan.name != 'Free' %>
+	<%=@user.subscription.plan.name%></h3>
     <p><a data-toggle="modal" href="#plan-options" class="btn btn-mini" type="button">Change Plan</a></p>
-	
-	<p><%=@user.subscription.last_4_digits%></p>
-    <p><a data-toggle="modal" href="#card-data" class="btn btn-mini" type="button">Change card</a></p>
+	<%if @user.subscription.last_4_digits%>
+		<p><%=@user.subscription.last_4_digits%></p>
+	    <p><a data-toggle="modal" href="#card-data" class="btn btn-mini" type="button">Change card</a></p>
+	<%end%>
 	
 <%else%>
-	Free 
-	<%= link_to 'Subscribe', plans_path %>
+	Free </h3>
+	<p><%= link_to 'Subscribe', plans_path, :html => {:class => "btn btn-mini", :type =>"button"} %></p>
 <%end%>
 
 
-<%= button_to "Cancel my subscription", update_plan_path(:plan_name=>'Free'), :data => { :confirm => "Are you sure you want to cancel your subscription?" }, :method => :put %>.
+<%if @user.subscription.plan.name != 'Free'%>
+	<%= button_to "Cancel my subscription", update_plan_path(:plan_name=>'Free'), :data => { :confirm => "Are you sure you want to cancel your subscription?" }, :method => :put %>.
+<%end%>
 <p>
-<%= link_to "Back", :back %>
+
+	<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => "form-vertical" }) do |f| %>
+	  <%= devise_error_messages! %>
+
+	  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+	    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+	  <% end %>
+	  <%= f.error_notification %>
+	  <%= f.input :email, :required => true %>
+	  <%= f.input :password, :autocomplete => "off", :hint => "leave it blank if you don't want to change it", :required => false %>
+	  <%= f.input :password_confirmation, :required => false %>
+	  <%= f.input :current_password, :hint => "we need your current password to confirm your changes", :required => true %>
+
+		<br/>
+		<div>
+		<% for role in User::ROLES %>
+			<%if role == 'admin1' || role == 'turker1'%>
+
+			<%else%>
+			 <%= check_box_tag "user[roles][#{role}]", role, @user.roles.include?(role), {:name => "user[roles][]"}%>
+			 <%= label_tag "user_roles_#{role}", role.humanize %><br />
+			<%end%>
+
+		<% end %>
+		<%= hidden_field_tag "user[roles][]", "" %>
+		</div>
+		<br/>
+	  <%= f.button :submit, 'Update', :class => 'btn-primary' %>  
+	<% end %>
+
 </p>
 
 <div id="plan-options" class="modal" style="display: none;">
@@ -66,33 +69,52 @@
 </div>
 
 <div id="card-data" class="modal" style="display: none;">
-  <%= simple_form_for @user.subscription, :url => update_card_path, :html => {:method => :put, :id => 'new_subscription', :class => 'form-horizontal card_form' } do |f| %>
+	  <%= simple_form_for @user.subscription, :url => update_card_path, :html => {:id => "new_subscription", :class => 'form-horizontal' } do |f| %>
     <div class="modal-header">
       <a class="close" data-dismiss="modal">&#215;</a>
-      <h3>Change Credit Card</h3>
-    </div>
+      <h3>Change Card</h3>
+    </div>	
     <div class="modal-body">
-      <div class="field">
-        <%= label_tag :card_number, "Credit Card Number" %>
-        <%= text_field_tag :card_number, nil, name: nil %>
-      </div>
-      <div class="field">
-        <%= label_tag :card_code, "Card Security Code (CVV)" %>
-        <%= text_field_tag :card_code, nil, name: nil %>
-      </div>
-      <div class="field">
-        <%= label_tag :card_month, "Card Expiration" %>
-        <%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month"}%>
-        <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+10}, {name: nil, id: "card_year"}%>
-      </div>
-      <%= f.hidden_field :stripe_card_token %>
-    </div>
-  <div id="stripe_error">
-    <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
-  </div>
+	  <% if @user.subscription.errors.any? %>
+	    <div class="error_messages">
+	      <h2><%= pluralize(@subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
+	      <ul>
+	      <% @user.subscription.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+	  <%= f.hidden_field :plan_id %>
+
+	  <%= f.hidden_field :stripe_card_token %>
+
+	  <% if @user.subscription.stripe_card_token.present? %>
+	    Credit card has been provided.
+	  <% else %>
+	    <div class="field">
+	      <%= label_tag :card_number, "Credit Card Number" %>
+	      <%= text_field_tag :card_number, nil, name: nil %>
+	    </div>
+	    <div class="field">
+	      <%= label_tag :card_code, "Security Code on Card (CVV)" %>
+	      <%= text_field_tag :card_code, nil, name: nil %>
+	    </div>
+	    <div class="field">
+	      <%= label_tag :card_month, "Card Expiration" %>
+	      <%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month"} %>
+	      <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year"} %>
+	    </div>
+	  <% end %>
+	  <div id="stripe_error">
+	    <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+	  </div>
+	</div>
+
     <div class="modal-footer">
-      <%= f.submit "Change Credit Card", :class => "btn btn-primary" %>
-      <a class="btn" data-dismiss="modal" href="#">Close</a>
-    </div>
-  <% end %>
+	    <%= f.submit "Subscribe" %>
+	  </div>
+	<% end %>
+	
 </div>

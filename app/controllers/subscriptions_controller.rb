@@ -9,13 +9,16 @@ class SubscriptionsController < ApplicationController
     end
     
     
-    @subscription = current_user.subscription || current_user.build_subscription
+    @subscription = current_user.build_subscription
     @subscription.plan = plan
   end
 
   def create
-    @subscription = Subscription.new(params[:subscription])
-    @subscription.user = @current_user
+    @subscription = @current_user.subscription
+    new_subscription = Subscription.new(params[:subscription])
+    @subscription.plan= new_subscription.plan
+    @subscription.stripe_card_token = new_subscription.stripe_card_token
+
     if @subscription.save_with_payment
       redirect_to @subscription, :notice => "Thank you for subscribing!"
     else
@@ -28,13 +31,30 @@ class SubscriptionsController < ApplicationController
   end
   
   def edit
-    plan = Plan.find(params[:plan_id])
+    if (params[:plan_id])
+      plan = Plan.find(params[:plan_id])
+    elsif (params[:plan_name])
+      plan = Plan.find_by_name(params[:plan_name])
+    end
+    
     @subscription = current_user.subscription
     @subscription.plan = plan
-    if @subscription.save_with_payment
-        redirect_to @subscription, :notice => "Thank you for subscribing!"
+  end
+
+  # PUT /subscriptions/1
+  # PUT /subscriptions/1.json
+  def update
+    @subscription = Subscription.find(params[:id])
+    @subscription.stripe_card_token = params[:subscription][:stripe_card_token]
+    @subscription.plan = Plan.find(params[:subscription][:plan_id])
+    respond_to do |format|
+      if@subscription.save_with_payment
+        format.html { redirect_to @subscription, notice: 'Thank you for subscribing!' }
+        format.json { head :no_content }
       else
-        render :new
+        format.html { render action: "edit" }
+        format.json { render json: @meeting_thread.errors, status: :unprocessable_entity }
+      end
     end
   end
 

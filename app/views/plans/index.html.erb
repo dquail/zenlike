@@ -14,7 +14,7 @@
       <li>10 free meeting coordinations a month</li>
     </ul>
     <h3>$9.99</h3>
-    <%= link_to 'Subscribe', new_subscription_path(:plan_name => 'Silver'), :class => 'btn btn-primary' %> 
+    <%= link_to 'Subscribe', edit_subscription_path(current_user.subscription, :plan_name => 'Silver'), :class => 'btn btn-primary' %> 
   </div>
   <div class="span2 well featured">
     <div class="plan featured-plan"><h2>Gold</h2></div>
@@ -22,7 +22,7 @@
       <li>50 free meeting coordinations a month</li>
     </ul>
     <h3>$19.99</h3>
-    <%= link_to 'Subscribe', new_subscription_path(:plan_name => 'Gold'), :class => 'btn btn-primary' %> 
+    <%= link_to 'Subscribe', edit_subscription_path(current_user.subscription, :plan_name => 'Gold'), :class => 'btn btn-primary' %> 
   </div>
   <div class="span2 well">
     <div class="plan"><h2>Elite</h2></div>
@@ -30,7 +30,7 @@
       <li>Unlimited meeting coordinations + virtual assistant</li>
     </ul>
     <h3>$199.99</h3>
-    <%= link_to 'Subscribe', new_subscription_path(:plan_name => 'Platinum'), :class => 'btn btn-primary' %> 
+    <%= link_to 'Subscribe', edit_subscription_path(current_user.subscription, :plan_name => 'Platinum'), :class => 'btn btn-primary' %> 
   </div>
 <br/><br/>
 

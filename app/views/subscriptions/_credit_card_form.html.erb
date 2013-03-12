@@ -1,4 +1,4 @@
-<%= form_for @subscription do |f| %>
+  <%= simple_form_for @subscription, :html => {:id => "new_subscription", :class => 'form-horizontal' } do |f| %>
   <% if @subscription.errors.any? %>
     <div class="error_messages">
       <h2><%= pluralize(@subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
