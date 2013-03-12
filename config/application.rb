@@ -24,7 +24,7 @@ module Zenlike
 
     # Activate observers that should always be running.
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
-    config.active_record.observers = :calendar_guess_observer, :meeting_thread_observer, :meeting_request_observer
+    config.active_record.observers = :user_observer, :calendar_guess_observer, :meeting_thread_observer, :meeting_request_observer
 
 
     #forcing your application to not access the DB or load models when precompiling your assets.

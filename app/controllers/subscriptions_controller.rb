@@ -38,6 +38,19 @@ class SubscriptionsController < ApplicationController
     end
   end
 
+  # DELETE /subscriptions/1
+  # DELETE /subscriptions/1.json
+  def destroy
+    @subscription = Subscription.find(params[:id])
+    
+    @subscription.destroy
+
+    respond_to do |format|
+      format.html { redirect_to meeting_threads_url }
+      format.json { head :no_content }
+    end
+  end
+  
   def update_plan
     if (@current_user.subscription)
       @subscription = @current_user.subscription

@@ -8,6 +8,9 @@ class Subscription < ActiveRecord::Base
   attr_accessible :stripe_card_token, :plan_id
   attr_accessor :stripe_card_token
   
+  before_destroy :cancel_subscription
+  
+  
   def save_with_payment
     if valid?
       if stripe_customer_token
@@ -54,6 +57,21 @@ class Subscription < ActiveRecord::Base
       errors.add :base, "There was a problem with your credit card."
       false
 
+  end
+
+  def cancel_subscription
+    unless stripe_customer_token.nil?
+      customer = Stripe::Customer.retrieve(stripe_customer_token)
+      unless customer.nil? or customer.respond_to?('deleted')
+        if customer.subscription.status == 'active'
+          customer.cancel_subscription
+        end
+      end
+    end
+  rescue Stripe::StripeError => e
+    logger.error "Stripe Error: " + e.message
+    errors.add :base, "Unable to cancel your subscription. #{e.message}."
+    false
   end
 
 
