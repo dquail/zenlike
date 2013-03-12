@@ -1,35 +1,34 @@
 <p id="notice"><%= notice %></p>
 
+<dl class="dl-horizontal">
+  <dt><strong>From:</strong></dt>
+  <dd><%= @meeting_thread.from %>/dd>
+	
+  <dt><strong>To:</strong></dt>
+  <dd><%= @meeting_thread.to %></dd>
 
-<p>
-  <b>From:</b>
-  <%= @meeting_thread.from %>
-</p>
+  <dt><strong>Cc:</strong></dt>
+  <%if @meeting_thread.cc.length > 0%>
+  	<dd><%= @meeting_thread.cc %></dd>
+  <%else%>
+	<dd>-</dd>
+  <%end%>
+ 
+ <dt><strong>Subject:</strong></dt>
+  <%if @meeting_thread.subject.length > 0%>	 
+	  <dd><%= @meeting_thread.subject %></dd>
+  <%else%>
+	<dd>-</dd>
+  <%end%>
 
-<p>
-  <b>To:</b>
-  <%= @meeting_thread.to %>
-</p>
+  <%if @meeting_thread.html.length > 0%>
+	  <dt><strong>Html:</strong></dt>
+	  <dd><%= raw(@meeting_thread.html) %></dd>
+  <%elsif @meeting_thread.text.length > 0%>
+    <dt><strong>Text:</strong></dt>
+    <dd><%= @meeting_thread.text %></dd>
+  <%end%>
 
-<p>
-  <b>Cc:</b>
-  <%= @meeting_thread.cc %>
-</p>
-<p>
-  <b>Subject:</b>
-  <%= @meeting_thread.subject %>
-</p>
-
-<p>
-  <b>Text:</b>
-  <%= @meeting_thread.text %>
-</p>
-
-<p>
-  <b>Html:</b>
-  <%= raw(@meeting_thread.html) %>
-</p>
-
-<%= link_to 'Edit', edit_meeting_thread_path(@meeting_thread) %> |
+</dl>
 
 
