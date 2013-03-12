@@ -32,7 +32,28 @@ class Subscription < ActiveRecord::Base
 
   
   def update_plan
-    #TODO - just stubbed in
+    
+      if valid?
+        if stripe_customer_token
+          logger.debug "Updating plan of existing stripe user"
+          customer = Stripe::Customer.retrieve(stripe_customer_token)
+          customer.update_subscription(:plan => plan.stripe_id, :prorate => true)
+          customer.save        
+          save!
+        else
+          logger.error "can not update plan of non existant subscription"
+          false
+        end
+
+        self.stripe_customer_token = customer.id     
+        self.last_4_digits = customer.active_card.last4         
+        save!
+      end
+    rescue Stripe::InvalidRequestError => e
+      logger.error "Stripe error while creating customer: #{e.message}"
+      errors.add :base, "There was a problem with your credit card."
+      false
+
   end
 
 

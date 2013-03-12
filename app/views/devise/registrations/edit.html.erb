@@ -55,7 +55,7 @@
       <h3>Change Plan</h3>
     </div>
     <div class="modal-body">
-    	Radio list of plans here.
+      <%= f.input :plan_id, :collection => Plan.all, :as => :radio_buttons, :label_method => lambda {|t| t.name.titleize}, :label => false, :item_wrapper_class => 'inline' %>
 		<p><%= link_to "View plan details", plans_path%></p>
 	</div>
     <div class="modal-footer">

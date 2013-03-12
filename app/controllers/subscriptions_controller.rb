@@ -39,22 +39,31 @@ class SubscriptionsController < ApplicationController
   end
 
   def update_plan
-    #todo - update the plan
-    logger.debug "subscriptions_controller.update_plan"
+    if (@current_user.subscription)
+      @subscription = @current_user.subscription
+      plan = Plan.find(params[:subscription][:plan_id])
+      @subscription.plan = plan
+
+      if @subscription.update_plan
+          redirect_to @subscription, :notice => "Thank you for subscribing!"
+        else
+          flash.alert = 'Unable to update subscription plan.'
+      end
+
+    else
+      redirect_to @subscription, :error => "Can not update plan for non-existant subscription."          
+    end    
   end
   
   def update_card
-    logger.info "subscriptions_controller.update_card"
-
+  
     if (@current_user.subscription)
       @subscription = @current_user.subscription
-      logger.info "setting the stripe_card_token of model to #{params[:subscription][:stripe_card_token]}"
       @subscription.stripe_card_token = params[:subscription][:stripe_card_token]
 
       if @subscription.save_with_payment
           redirect_to @subscription, :notice => "Thank you for subscribing!"
         else
-          logger.info "unable to update card"
           flash.alert = 'Unable to update card.'
       end
 
