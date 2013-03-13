@@ -1,10 +1,10 @@
 	
 	<%= simple_form_for @user.subscription,  :url => update_plan_path, :html => {:method => :put, :class => 'form-horizontal' } do |f| %>
 		<fieldset>
-			<legend>User Plan</legend>
+			<legend>Subscription</legend>
 			<p><%= link_to "View plan details", plans_path%></p>
 		    <%= f.input :plan_id, :collection => Plan.all, :as => :radio_buttons, :label_method => lambda {|t| t.name.titleize + "  "}, :label => false, :item_wrapper_class => 'inline' %>
-			<p>Card - <%=@user.subscription.last_4_digits%> - <a data-toggle="modal" href="#card-data" >Change</a></p>
+			<p>Credit Card ends with - <%=@user.subscription.last_4_digits%> - <a data-toggle="modal" href="#card-data" >Change card</a></p>
 		    <%= f.submit "Change Plan", :class => "btn btn-primary" %>
 		</fieldset>
 		<%if @user.subscription.last_4_digits%>
