@@ -1,21 +1,17 @@
-<h3>Current Subscription Plan:  
-<%if @user.plan && @user.plan.name != 'Free' %>
-	<%=@user.subscription.plan.name%></h3>
-    <p><a data-toggle="modal" href="#plan-options" class="btn btn-mini" type="button">Change Plan</a></p>
-	<%if @user.subscription.last_4_digits%>
-		<p><%=@user.subscription.last_4_digits%></p>
-	    <p><a data-toggle="modal" href="#card-data" class="btn btn-mini" type="button">Change card</a></p>
-	<%end%>
 	
-<%else%>
-	Free </h3>
-	<p><%= link_to 'Subscribe', plans_path, :class => "btn btn-primary", :type =>"button" %></p>
+	<%= simple_form_for @user.subscription,  :url => update_plan_path, :html => {:method => :put, :class => 'form-horizontal' } do |f| %>
+		<fieldset>
+			<legend>User Plan</legend>
+			<p><%= link_to "View plan details", plans_path%></p>
+		    <%= f.input :plan_id, :collection => Plan.all, :as => :radio_buttons, :label_method => lambda {|t| t.name.titleize + "  "}, :label => false, :item_wrapper_class => 'inline' %>
+			<p>Card - <%=@user.subscription.last_4_digits%> - <a data-toggle="modal" href="#card-data" >Change</a></p>
+		    <%= f.submit "Change Plan", :class => "btn btn-primary" %>
+		</fieldset>
+		<%if @user.subscription.last_4_digits%>
+
+		<%end%>
 <%end%>
 
-
-<%if @user.subscription.plan.name != 'Free'%>
-	<%= button_to "Cancel my subscription", update_plan_path(:plan_name=>'Free'), :data => { :confirm => "Are you sure you want to cancel your subscription?" }, :method => :put %>.
-<%end%>
 <p>
 
 	<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => "form-horizontal" }) do |f| %>
@@ -47,27 +43,14 @@
 		<%= hidden_field_tag "user[roles][]", "" %>
 		</div>
 		<br/>
-	  <%= f.button :submit, 'Update', :class => 'btn-primary' %>  
+	  <%= f.button :submit, 'Update email / password', :class => 'btn-primary' %>  
 	<% end %>
 
 </p>
 
-<div id="plan-options" class="modal" style="display: none;">
-  <%= simple_form_for @user.subscription,  :url => update_plan_path, :html => {:method => :put, :class => 'form-horizontal' } do |f| %>
-    <div class="modal-header">
-      <a class="close" data-dismiss="modal">&#215;</a>
-      <h3>Change Plan</h3>
-    </div>
-    <div class="modal-body">
-      <%= f.input :plan_id, :collection => Plan.all, :as => :radio_buttons, :label_method => lambda {|t| t.name.titleize}, :label => false, :item_wrapper_class => 'inline' %>
-		<p><%= link_to "View plan details", plans_path%></p>
-	</div>
-    <div class="modal-footer">
-      <%= f.submit "Change Plan", :class => "btn btn-primary" %>
-      <a class="btn" data-dismiss="modal" href="#">Close</a>
-    </div>
-  <% end %>
-</div>
+<%if @user.subscription.plan.name != 'Free'%>
+	<%= button_to "Cancel my subscription", update_plan_path(:plan_name=>'Free'), :data => { :confirm => "Are you sure you want to cancel your subscription?" }, :method => :put, :class => "btn-danger" %>.
+<%end%>
 
 <div id="card-data" class="modal" style="display: none;">
 	  <%= simple_form_for @user.subscription, :url => update_card_path, :html => {:id => "new_subscription", :class => 'form-horizontal' } do |f| %>
