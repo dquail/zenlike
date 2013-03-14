@@ -6,8 +6,8 @@
 		    <%= f.input :plan_id, :collection => Plan.all, :as => :radio_buttons, :label_method => lambda {|t| t.name.titleize + "  "}, :label => false, :item_wrapper_class => 'inline' %>
 
 		
-			<p>Remaining credits this month - <%=@user.subscription.available_credits%></p>
-			<p>Credit Card ends with - <%=@user.subscription.last_4_digits%> - <a data-toggle="modal" href="#card-data" >Change card</a></p>
+			<p>Remaining credits this month: <%=@user.subscription.available_credits%></p>
+			<p>Credit Card ends with: <%=@user.subscription.last_4_digits%> - <a data-toggle="modal" href="#card-data" >Change card</a></p>
 			
 			<%if @user.subscription.available_credits <= 0%>
 			  	<div class="alert alert-error %>">
