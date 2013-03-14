@@ -59,7 +59,9 @@ Zenlike::Application.routes.draw do
   #########################################  
 
   root :to => "home#index"
-    
+
+  mount StripeEvent::Engine => '/stripe'
+      
   devise_for :users, :controllers => { :subscriptions => 'subscriptions' }
   
   resources :users

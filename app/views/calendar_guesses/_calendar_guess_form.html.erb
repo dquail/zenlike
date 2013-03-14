@@ -1,4 +1,4 @@
-<%= form_for(@calendar_guess) do |f| %>
+<%= simple_form_for(@calendar_guess, :html => {:class => "form-horizontal"}) do |f| %>
   <% if @calendar_guess.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@calendar_guess.errors.count, "error") %> prohibited this from being saved:</h2>
@@ -12,45 +12,15 @@
   <% end %>
   <%= f.hidden_field :turker_id, :value => @current_user.id %>	
   <%= f.hidden_field :meeting_thread_id, :value => @calendar_guess.meeting_thread.id %>	
-  
-  <div class="field">
-    <%= f.label :participants, "Participants (comma separated list of only email addresses)" %><br />
-    <%= f.email_field :participants, :size => 80 %>
-  </div>
+  	<fieldset>
+		<legend>Fill out meeting info</legend>
+		<%= f.input :participants, :hint => "Comma separated list of email addresses", :required => true %>
+		<%= f.input :start_date_time, :required => true%>
+	    <%= f.input :end_date_time, :required => true %>
+	    <%= f.input :location, :required => true %><br />
+	    <%= f.input :summary, :hint => "Participant1, Participant2 - Location - Time", :size => 80, :required => true %>
+	    <%= f.input :description, :size => 80, :required => true %>
+		<%= f.button :submit, 'Submit', :class => 'btn-primary' %> 
+	</fieldset>
 
-  Start
-  <div class="field">
-	<%= f.text_field :start_date_time, :id=>"start_date_time"%>
-
-  </div>
-
-  End
-  <div class="field">
-    <%= f.datetime_select :end_date_time %>
-  </div>
-
-  <div class="field">
-    <%= f.label :time_zone %><br />
-    <%= f.time_zone_select :time_zone %>
-  </div>
-
-
-  <div class="field">
-    <%= f.label :location %><br />
-    <%= f.text_field :location, :size => 80 %>
-  </div>
-
-  <div class="field">
-    <%= f.label :summary, "Summary (Participant1, Participant2, Location, etc)" %><br />
-    <%= f.text_field :summary, :size => '80' %>
-  </div>
-
-  <div class="field">
-    <%= f.label :description, "Description (copy and paste the email message)" %><br />
-    <%= f.text_area :description, :size => '80X80' %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 <% end %>

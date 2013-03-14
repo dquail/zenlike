@@ -12,6 +12,7 @@ gem 'devise'
 gem 'cancan'
 gem 'jquery-timepicker-rails'
 gem 'stripe'
+gem "stripe_event"
 gem 'bootstrap-sass'
 gem 'simple_form'
 
