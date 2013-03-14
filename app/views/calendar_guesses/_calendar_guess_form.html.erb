@@ -15,8 +15,12 @@
   	<fieldset>
 		<legend>Fill out meeting info</legend>
 		<%= f.input :participants, :hint => "Comma separated list of email addresses", :required => true %>
+		<%= f.input :start_date_time, :as => :string,  :required => true%>
+		<%= f.input :end_date_time, :as => :string, :required => true, input_html: { size: 20 } %>
+		<!--
 		<%= f.input :start_date_time, :required => true%>
-	    <%= f.input :end_date_time, :required => true %>
+		<%= f.input :end_date_time, :required => true%>
+		-->
 	    <%= f.input :location, :required => true %><br />
 	    <%= f.input :summary, :hint => "Participant1, Participant2 - Location - Time", :size => 80, :required => true %>
 	    <%= f.input :description, :size => 80, :required => true %>
