@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130304071817) do
+ActiveRecord::Schema.define(:version => 20130314193731) do
 
   create_table "calendar_guesses", :force => true do |t|
     t.datetime "created_at",        :null => false
@@ -69,8 +69,11 @@ ActiveRecord::Schema.define(:version => 20130304071817) do
     t.integer  "plan_id"
     t.integer  "user_id"
     t.string   "stripe_customer_token"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
+    t.string   "last_4_digits"
+    t.integer  "available_credits",     :default => 3
+    t.string   "status",                :default => "active"
   end
 
   create_table "users", :force => true do |t|
@@ -92,7 +95,6 @@ ActiveRecord::Schema.define(:version => 20130304071817) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.integer  "roles_mask"
-    t.integer  "available_credits",      :default => 3
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

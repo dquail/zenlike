@@ -70,11 +70,37 @@ class Subscription < ActiveRecord::Base
         end
       end
     end
+    
+    
   rescue Stripe::StripeError => e
     logger.error "Stripe Error: " + e.message
     errors.add :base, "Unable to cancel your subscription. #{e.message}."
     false
   end
 
+  #Handlers for strip webhooks
+  
+  def charge_failed(event)
+    #Don't need to adjust their existing credits.  
+    status = 'overdue'
+    save!
+    SubscriptionMailer.payment_failed(subscription_from_event(event)).deliver
+    
+  end
+  
+  def charge_succeeded(event)
+    #their current available credits could be negative.  ie.  -20.  So don't want them to game the system by just racking
+    #up negative credit and then resetting to 5
+    available_credits = [available_credits + plan.credits, plan.credits].min
+    save!
+    SubscriptionMailer.payment_received(subscription_from_event(event)).deliver    
+  end
+  
+  def customer_created_or_updated(event)
+    available_credits = plan.credits
+    save!
+    SubscriptionMailer.subscription_created(subscription_from_event(event)).deliver
+  end
+  
 
 end

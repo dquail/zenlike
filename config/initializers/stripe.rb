@@ -3,18 +3,16 @@ STRIPE_PUBLIC_KEY = "pk_test_bsLjkPKn3lNoDcVIpdYHvqeD"
 
 StripeEvent.setup do
   subscribe 'charge.failed' do |event|
-    # Define subscriber behavior based on the event object
-    event.class #=> Stripe::Event
-    event.type  #=> "charge.failed"
-    event.data  #=> { ... }
+    subscription_from_event(event).charge_failed(event)
+    
   end
 
   subscribe 'customer.created', 'customer.updated' do |event|
-    # Handle multiple event types
+    subscription_from_event(event).customer_created(event)
   end
   
   subscribe 'charge.succeeded' do |event|
-    #TODO - Update the users credits based on their plan
+    subscription_from_event(event).charge_succeeded(event)
   end
 end
 

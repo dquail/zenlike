@@ -4,6 +4,8 @@ class MeetingThreadsController < ApplicationController
   
   load_and_authorize_resource :except => [:from_sendgrid]
 
+  before_filter :check_subscription, :only => [:show, :index]
+  
   # GET /meeting_threads
   # GET /meeting_threads.json
   def index
@@ -132,4 +134,10 @@ class MeetingThreadsController < ApplicationController
     render :json => { "message" => "OK" }, :status => 200
   end
 
+  def check_subscription
+    if (current_user.subscription.available_credits <=0)
+      flash.alert = "You have no credits available.  Please upgrade your account."
+    end
+  end
+  
 end
