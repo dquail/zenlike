@@ -26,8 +26,12 @@ class Subscription < ActiveRecord::Base
       logger.info "Setting stripe_customer_token to #{customer.id} "
       logger.info "Its description is #{customer.description} "      
       self.stripe_customer_token = customer.id     
-      self.last_4_digits = customer.active_card.last4         
+      self.last_4_digits = customer.active_card.last4       
+      self.available_credits = self.plan.credits
+      SubscriptionMailer.subscription_created(self).deliver        
+      
       save!
+      
     end
   rescue Stripe::InvalidRequestError => e
     logger.error "Stripe error while creating customer: #{e.message}"
@@ -47,12 +51,14 @@ class Subscription < ActiveRecord::Base
 
           self.stripe_customer_token = customer.id     
           self.last_4_digits = customer.active_card.last4         
-
+          self.available_credits = self.plan.credits
         else
           logger.info "Updating free plan"
-
         end
-        save!
+        
+        save!        
+        SubscriptionMailer.subscription_created(self).deliver
+        
       end
     rescue Stripe::InvalidRequestError => e
       logger.error "Stripe error while creating customer: #{e.message}"
@@ -96,10 +102,10 @@ class Subscription < ActiveRecord::Base
     SubscriptionMailer.payment_received(subscription_from_event(event)).deliver    
   end
   
-  def customer_created_or_updated(event)
+  def customer_subscription_created_or_updated
     available_credits = plan.credits
     save!
-    SubscriptionMailer.subscription_created(subscription_from_event(event)).deliver
+    SubscriptionMailer.subscription_created(self).deliver
   end
   
 

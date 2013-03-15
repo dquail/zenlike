@@ -6,15 +6,21 @@ StripeEvent.setup do
     subscription_from_event(event).charge_failed(event)
     
   end
-
-  subscribe 'customer.created', 'customer.updated' do |event|
-    subscription_from_event(event).customer_created(event)
-  end
   
   subscribe 'charge.succeeded' do |event|
     subscription_from_event(event).charge_succeeded(event)
   end
+
+  subscribe 'customer.subscription.created' do |event|
+    subscription_from_event(event).customer_subscription_created_or_updated
+  end
+  
+  subscribe 'customer.subscription.updated' do |event|
+    subscription_from_event(event).customer_subscription_created_or_updated
+  end
+  
 end
+
 
 private 
 def subscription_from_event(event)

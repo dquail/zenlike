@@ -47,6 +47,7 @@ class SubscriptionsController < ApplicationController
     @subscription = Subscription.find(params[:id])
     @subscription.stripe_card_token = params[:subscription][:stripe_card_token]
     @subscription.plan = Plan.find(params[:subscription][:plan_id])
+
     respond_to do |format|
       if@subscription.save_with_payment
         format.html { redirect_to @subscription, notice: 'Thank you for subscribing!' }
@@ -81,7 +82,7 @@ class SubscriptionsController < ApplicationController
       end
       
       @subscription.plan = plan
-
+      
       if @subscription.update_plan
           redirect_to @subscription, :notice => "Thank you for subscribing!"
         else
