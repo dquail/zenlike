@@ -13,7 +13,7 @@ StripeEvent.setup do
     subscription_from_event(event).charge_succeeded(event)
   end
   
-  subscribe 'invoice.created' do |event|
+  subscribe 'invoiceitem.created' do |event|
     Rails.logger.info 'Invoice created'
     subscription = subscription_from_event(event)
     if (subscription.plan.name == 'Free')
