@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130314193731) do
+ActiveRecord::Schema.define(:version => 20130315041115) do
 
   create_table "calendar_guesses", :force => true do |t|
     t.datetime "created_at",        :null => false
@@ -72,8 +72,8 @@ ActiveRecord::Schema.define(:version => 20130314193731) do
     t.datetime "created_at",                                  :null => false
     t.datetime "updated_at",                                  :null => false
     t.string   "last_4_digits"
-    t.integer  "available_credits",     :default => 3
     t.string   "status",                :default => "active"
+    t.integer  "available_credits",     :default => 3
   end
 
   create_table "users", :force => true do |t|
