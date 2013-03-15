@@ -3,11 +3,13 @@ STRIPE_PUBLIC_KEY = "pk_test_bsLjkPKn3lNoDcVIpdYHvqeD"
 
 StripeEvent.setup do
   subscribe 'charge.failed' do |event|
+    Rails.logger.info "Charge failed event from stripe"
     subscription_from_event(event).charge_failed(event)
     
   end
   
   subscribe 'charge.succeeded' do |event|
+    Rails.logger.info "Charge succeeded event from stripe"    
     subscription_from_event(event).charge_succeeded(event)
   end
 
