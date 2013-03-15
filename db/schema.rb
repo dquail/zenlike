@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130315041115) do
+ActiveRecord::Schema.define(:version => 20130315041720) do
 
   create_table "calendar_guesses", :force => true do |t|
     t.datetime "created_at",        :null => false
@@ -69,11 +69,11 @@ ActiveRecord::Schema.define(:version => 20130315041115) do
     t.integer  "plan_id"
     t.integer  "user_id"
     t.string   "stripe_customer_token"
-    t.datetime "created_at",                                  :null => false
-    t.datetime "updated_at",                                  :null => false
-    t.string   "last_4_digits"
-    t.string   "status",                :default => "active"
-    t.integer  "available_credits",     :default => 3
+    t.datetime "created_at",                                               :null => false
+    t.datetime "updated_at",                                               :null => false
+    t.string   "status",                             :default => "active"
+    t.integer  "available_credits",                  :default => 3
+    t.string   "last_4_digits",         :limit => 4
   end
 
   create_table "users", :force => true do |t|
