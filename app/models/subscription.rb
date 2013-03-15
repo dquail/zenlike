@@ -108,5 +108,9 @@ class Subscription < ActiveRecord::Base
     SubscriptionMailer.subscription_created(self).deliver
   end
   
+  def free_plan_invoiced
+    self.available_credits = [self.available_credits + plan.credits, plan.credits].min
+    save!    
+  end
 
 end
