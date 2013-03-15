@@ -97,13 +97,13 @@ class Subscription < ActiveRecord::Base
   def charge_succeeded(event)
     #their current available credits could be negative.  ie.  -20.  So don't want them to game the system by just racking
     #up negative credit and then resetting to 5
-    available_credits = [available_credits + plan.credits, plan.credits].min
+    self.available_credits = [self.available_credits + plan.credits, plan.credits].min
     save!
     SubscriptionMailer.payment_received(subscription_from_event(event)).deliver    
   end
   
   def customer_subscription_created_or_updated
-    available_credits = plan.credits
+    self.available_credits = plan.credits
     save!
     SubscriptionMailer.subscription_created(self).deliver
   end
