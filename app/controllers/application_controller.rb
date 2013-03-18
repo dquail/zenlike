@@ -1,3 +1,5 @@
+require 'uri'
+
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
@@ -42,11 +44,16 @@ class ApplicationController < ActionController::Base
   def create_zendesk_link
     if current_user && current_user.subscription && current_user.subscription.plan.name == "Platinum"
       timestamp = Time.now.utc.to_i
-      #string = "David Quail" + "david_quail@hotmail.com" + ZENDESK_REMOTE_AUTH_TOKEN + timestamp.to_s
-      #@zendesk_login_link = ZENDESK_REMOTE_AUTH_URL + "?name=David%20Quail&email=david_quail@hotmail.com&timestamp=#{timestamp}&hash=#{hash}"
-      string = "First Last" + "first.last@gmail.com" + ZENDESK_REMOTE_AUTH_TOKEN + timestamp.to_s
+
+      if (current_user.name =="")
+        name = "Name"
+      else
+        name = current_user.name
+      end
+      
+      string = URI.escape(name) + current_user.email + ZENDESK_REMOTE_AUTH_TOKEN + timestamp.to_s
       hash = Digest::MD5.hexdigest(string)
-      @zendesk_login_link = ZENDESK_REMOTE_AUTH_URL +  "?name=First%20Last&email=first.last@gmail.com&timestamp=#{timestamp}&hash=#{hash}"
+      @zendesk_login_link = ZENDESK_REMOTE_AUTH_URL +  "?name=" + URI.escape(name) + "&email=" + current_user.email + "&timestamp=#{timestamp}&hash=#{hash}"
     end
 
     
