@@ -104,25 +104,19 @@ class MeetingThreadsController < ApplicationController
     
     user = User.find_by_email(email_address)
     if (user)
-      if (user.confirmed?)
-        logger.debug "Received request to schedule meeting from valid email address"     
-        begin
-          utf_html = params[:html].force_encoding(charsets['text']).encode('UTF-8')
-          safe_html = ActionController::Base.helpers.sanitize(utf_html)
-          logger.info "building meeting_thread"
-          @meeting_thread = user.meeting_threads.build :headers => params[:headers], :text => params[:text].force_encoding(charsets['text']).encode('UTF-8'), :html => safe_html, :from => full_email, :to => params[:to], :cc => params[:cc], :subject => params[:subject]
-          #save the meeting thread 
-          logger.info "saving thread"
-          @meeting_thread.save
-          logger.info "saved thread"
-          #Sending the user an email to say that it was received is in the MeetingThreadObserver
-        rescue
-          #MeetingRequestMailer.meeting_thread_exception(user).deliver
-        end
-         
-      else
-        logger.debug "Received a request to schedule meeting from an unconfirmed address"
-        MeetingRequestMailer.meeting_thread_unconfirmed_email(user).deliver
+      logger.debug "Received request to schedule meeting from valid email address"     
+      begin
+        utf_html = params[:html].force_encoding(charsets['text']).encode('UTF-8')
+        safe_html = ActionController::Base.helpers.sanitize(utf_html)
+        logger.info "building meeting_thread"
+        @meeting_thread = user.meeting_threads.build :headers => params[:headers], :text => params[:text].force_encoding(charsets['text']).encode('UTF-8'), :html => safe_html, :from => full_email, :to => params[:to], :cc => params[:cc], :subject => params[:subject]
+        #save the meeting thread 
+        logger.info "saving thread"
+        @meeting_thread.save
+        logger.info "saved thread"
+        #Sending the user an email to say that it was received is in the MeetingThreadObserver
+      rescue
+        #MeetingRequestMailer.meeting_thread_exception(user).deliver
       end
     else
       #email user saying that they need to sign up for an account
