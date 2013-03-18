@@ -32,6 +32,9 @@
 				<%if can? :create, MeetingThread%>
 					<li><%= link_to "Meeting Threads", meeting_threads_path%></li>
 				<%end%>
+				<%if @zendesk_login_link%>
+					<li><%= link_to "Assistant", @zendesk_login_link%></li>
+				<%end%>
 				<li><%= link_to current_user.email, edit_user_registration_path%></li>
 				<li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
 			<%else%>

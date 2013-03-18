@@ -73,6 +73,8 @@ class SubscriptionsController < ApplicationController
   end
   
   def update_plan
+    Rails.logger.info "In update plan"
+
     if (@current_user.subscription)
       @subscription = @current_user.subscription
       if (params[:subscription]) && params[:subscription][:plan_id]
@@ -85,8 +87,9 @@ class SubscriptionsController < ApplicationController
       
       if @subscription.update_plan
           redirect_to @subscription, :notice => "Thank you for subscribing!"
-        else
+      else
           flash.alert = 'Unable to update subscription plan.'
+          redirect_to @subscription          
       end
 
     else
