@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
     if current_user && current_user.subscription && current_user.subscription.plan.name == "Platinum"
       timestamp = Time.now.utc.to_i
 
-      if (current_user.name =="")
+      if (current_user.name && current_user.name =="")
         name = "Name"
       else
         name = current_user.name
