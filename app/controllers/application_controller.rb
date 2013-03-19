@@ -1,4 +1,3 @@
-require 'uri'
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
@@ -48,12 +47,12 @@ class ApplicationController < ActionController::Base
       if (!current_user.name || current_user.name == "")
         name = "Name"
       else
-        name = current_user.name
+        name = current_user.name 
       end
       
-      string = URI.escape(name) + current_user.email + ZENDESK_REMOTE_AUTH_TOKEN + timestamp.to_s
+      string = name + current_user.email + ZENDESK_REMOTE_AUTH_TOKEN + timestamp.to_s
       hash = Digest::MD5.hexdigest(string)
-      @zendesk_login_link = ZENDESK_REMOTE_AUTH_URL +  "?name=" + URI.escape(name) + "&email=" + current_user.email + "&timestamp=#{timestamp}&hash=#{hash}"
+      @zendesk_login_link = ZENDESK_REMOTE_AUTH_URL +  "?name=" + name + "&email=" + current_user.email + "&timestamp=#{timestamp}&hash=#{hash}"
     end
 
     

@@ -13,7 +13,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-	
   <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
@@ -33,7 +32,7 @@
 					<li><%= link_to "Meeting Threads", meeting_threads_path%></li>
 				<%end%>
 				<%if @zendesk_login_link%>
-					<li><%= link_to "Assistant", @zendesk_login_link%></li>
+					<li><%= link_to "Assistant", @zendesk_login_link.html_safe%></li>
 				<%end%>
 				<li><%= link_to current_user.email, edit_user_registration_path%></li>
 				<li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
