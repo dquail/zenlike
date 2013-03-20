@@ -72,6 +72,9 @@ Zenlike::Application.routes.draw do
   put 'update_card', :to => 'subscriptions#update_card'
   resources :plans
 
+  match 'auth/:provider/callback', to: 'oauth_sessions#create'
+  match 'auth/failure', to: redirect('/')
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130318211349) do
+ActiveRecord::Schema.define(:version => 20130320160757) do
 
   create_table "calendar_guesses", :force => true do |t|
     t.datetime "created_at",        :null => false
@@ -96,6 +96,8 @@ ActiveRecord::Schema.define(:version => 20130318211349) do
     t.string   "unconfirmed_email"
     t.integer  "roles_mask"
     t.string   "name"
+    t.string   "google_access_token"
+    t.string   "google_refresh_token"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

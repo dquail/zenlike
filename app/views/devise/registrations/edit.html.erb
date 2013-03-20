@@ -1,4 +1,15 @@
-	
+	<fieldset>
+		<legend>Google Calendar</legend>
+		<%if @user.google_access_token%>
+			<p>Your calendar is shared with your assistant</p>
+			<%= link_to 'Reconfigure', "/auth/google_oauth2", :class => "btn btn-primary" %>
+		<%else%>
+			<p>Share your google calendar with your assistant so they can add meetings directly to it</p>
+			<%= link_to 'Configure', "/auth/google_oauth2", :class => "btn btn-primary" %>		
+		<%end%>
+
+	</fieldset>
+	<br/>
 	<%= simple_form_for @user.subscription,  :url => update_plan_path, :html => {:method => :put, :class => 'form-horizontal' } do |f| %>
 		<fieldset>
 			<legend>Subscription</legend>
@@ -69,7 +80,7 @@
 </p>
 
 <%if @user.subscription.plan.name != 'Free'%>
-	<%= button_to "Cancel my subscription", update_plan_path(:plan_name=>'Free'), :data => { :confirm => "Are you sure you want to cancel your subscription?" }, :method => :put, :class => "btn-danger" %>.
+	<%= button_to "Cancel my subscription", update_plan_path(:plan_name=>'Free'), :data => { :confirm => "Are you sure you want to cancel your subscription?" }, :method => :put, :class => "btn-danger" %>
 <%end%>
 
 <div id="card-data" class="modal" style="display: none;">

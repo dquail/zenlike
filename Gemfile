@@ -15,6 +15,9 @@ gem 'stripe'
 gem "stripe_event"
 gem 'bootstrap-sass'
 gem 'simple_form'
+gem 'google-api-client', :require => 'google/api_client'
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
 
 # Gems used only for assets and not required
 # in production environments by default.
