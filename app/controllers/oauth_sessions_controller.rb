@@ -5,10 +5,11 @@ class OauthSessionsController < ApplicationController
     #Use the token from the data to request a list of calendars
     token = @auth["credentials"]["token"]
     refresh_token = @auth["credentials"]["refresh_token"]
+    expires_at = @auth["credentials"]["expires_at"]
     
     current_user.google_access_token = token
     current_user.google_refresh_token = refresh_token
-    
+    current_user.google_expires_at = expires_at
     current_user.save!
     
     redirect_to edit_user_registration_url, :notice => 'Successfully added google calendar'

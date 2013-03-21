@@ -6,19 +6,27 @@ class MeetingRequest < ActiveRecord::Base
   
 
   def send_to_participants
-
-    #TODO - Get either the users google access token, or our own access token
-    Rails.logger.info "Sending meeting request to participants using google calendar"
-    Rails.logger.info "User: #{self.meeting_thread.user.email}"
     access_token = self.meeting_thread.user.google_access_token
     refresh_token = self.meeting_thread.user.google_refresh_token
-    
-    Rails.logger.info "Using access token #{access_token}"
-    
-    if not access_token
-      Rails.logger.info "No access token.  Using our own"
-      return
+    expires_at = self.meeting_thread.user.google_expires_at
+      
+    if (access_token)
+      Rails.logger.info "Comparing current time: #{Time.now.to_i} with: #{expires_at}"
+      if (Time.now.to_i >= expires_at)
+        Rails.logger.info "Generating a new token"
+        access_token = self.refresh_token
+      end
+    else
+      Rails.logger.info "No user access token.  Using our own"
+      meeting_user = GoogleUser.find_by_email('meetings@zenlike.me')
+      if (Time.now.to_i >= meeting_user.google_expires_at)
+        Rails.logger.info "Getting a new token for system user"
+        access_token = meeting_user.refresh_token
+      else
+        access_token = meeting_user.google_access_token
+      end      
     end
+    
     
     #Create 
     client = Google::APIClient.new
@@ -64,6 +72,32 @@ class MeetingRequest < ActiveRecord::Base
 
   end
 
+  def refresh_token
+    data = {
+      :client_id => GOOGLE_CLIENT_ID,
+      :client_secret => GOOGLE_CLIENT_SECRET,
+      :refresh_token => self.meeting_thread.user.google_refresh_token,
+      :grant_type => 'refresh_token'
+    }
+    
+    @response = ActiveSupport::JSON.decode(RestClient.post "https://accounts.google.com/o/oauth2/token", data)
+    Rails.logger.info "Received a new response for token refresh"
+    if @response["access_token"].present?
+      self.meeting_thread.user.google_access_token = @response["access_token"]
+      self.meeting_thread.user.google_expires_at = @response["expires_at"]
+      self.meeting_thread.user.save!
+      Rails.logger.info "Returning new token #{@response["access_token"]}"
+      return @response["access_token"]
+    else
+      Rails.logger.error "Couldn't generate new token for user"
+      return nil
+    end
+    
+  rescue RestClient::BadRequest => e
+    Rails.logger.error "Bad request when refreshing google token"
+
+  end
+  
   def to_ics_test
     event = RiCal.Event do
           description "Test description"
